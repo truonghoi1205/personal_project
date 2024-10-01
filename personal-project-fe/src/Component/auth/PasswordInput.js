@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { Form } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import "../../style/FormLogin.css"
 
-const PasswordInput = ({ formik, fieldName, label, value, onChange, placeholder }) => {
+const PasswordInput = ({ formik, fieldName, value,label, onChange, placeholder }) => {
     const [showPassword, setShowPassword] = useState(false);
 
     const handleTogglePassword = () => {
@@ -14,6 +15,7 @@ const PasswordInput = ({ formik, fieldName, label, value, onChange, placeholder 
         ? {
             ...formik.getFieldProps(fieldName),
             isInvalid: formik.touched[fieldName] && formik.errors[fieldName],
+            onBlur: formik.handleBlur
         }
         : {
             value,
@@ -21,28 +23,29 @@ const PasswordInput = ({ formik, fieldName, label, value, onChange, placeholder 
         };
 
     return (
-        <Form.Group controlId={fieldName} className={"mb-3"}>
-            <Form.Label>{label}</Form.Label>
-            <div className="position-relative">
-                <Form.Control
-                    type={showPassword ? 'text' : 'password'}
-                    name={fieldName}
-                    {...inputProps}
-                    placeholder={placeholder}
-                    className="pr-5"
-                />
-                <FontAwesomeIcon
-                    icon={showPassword ? faEyeSlash : faEye}
-                    className="position-absolute eye-icon"
-                    style={{ top: '21px', right: '10px', cursor: 'pointer' }}
-                    onClick={handleTogglePassword}
-                />
+        <Form.Group controlId={fieldName} className={"form-outline"}>
+                <Form.Label>{label}</Form.Label>
+                <div className="position-relative">
+                    <Form.Control
+                        type={showPassword ? 'text' : 'password'}
+                        name={fieldName}
+                        {...inputProps}
+                        placeholder={placeholder}
+                        className="ico-is-valid form-control"
+                    />
+                    <FontAwesomeIcon
+                        icon={showPassword ? faEyeSlash : faEye}
+                        className="position-absolute eye-icon"
+                        style={{ right: '10px', cursor: 'pointer' }}
+                        onClick={handleTogglePassword}
+                    />
+                </div>
                 {formik && (
                     <Form.Control.Feedback type="invalid">
                         {formik.errors[fieldName]}
                     </Form.Control.Feedback>
                 )}
-            </div>
+
         </Form.Group>
     );
 };

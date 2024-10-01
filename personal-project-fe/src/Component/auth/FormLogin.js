@@ -1,45 +1,47 @@
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
 import PasswordInput from "./PasswordInput";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-function FormLogin({ formik }) {
+function FormLogin({formik}) {
     return (
         <form onSubmit={formik.handleSubmit}>
-            <div className="row">
-                <div className="col-12">
-                    <div className="mb-3">
-                        <label>Email</label>
-                        <input
-                            className="form-control"
-                            id="email"
-                            name="email"
-                            type="text"
-                            onChange={formik.handleChange}
-                            value={formik.values.email}
-                        />
-                        {formik.touched.email && formik.errors.email && (
-                            <div className="text-danger">{formik.errors.email}</div>
-                        )}
-                    </div>
-                    <div className="mb-3">
-                        <PasswordInput
-                            formik={formik}
-                            fieldName="password"
-                            label="Mật khẩu"
-                        />
-                    </div>
+            <div className="w-75 m-auto">
+                <div className="form-outline">
+                    <label>Email</label>
+                    <input
+                        className={`form-control ${formik.touched.email && formik.errors.email ? 'is-invalid' : ''}`}
+                        id="email"
+                        name="email"
+                        type="text invalid"
+                        placeholder="Email"
+                        onChange={formik.handleChange}
+                        value={formik.values.email}
+                    />
+                    {formik.touched.email && formik.errors.email && (
+                        <div className="text-danger">{formik.errors.email}</div>
+                    )}
+                </div>
+                <div className="form-outline my-3">
+                    <PasswordInput
+                        formik={formik}
+                        fieldName="password"
+                        placeholder="Mật khẩu"
+                        label="Mật khẩu"
+                    />
+                    {formik.touched.password && formik.errors.password && (
+                        <div className="text-danger">{formik.errors.password}</div>
+                    )}
                 </div>
             </div>
-            <div className="row d-flex justify-content-between mt-1 mb-2">
-                <div className="mb-3">
-                    <Link to="/forgot-password">Quên mật khẩu ?</Link>
-                </div>
-            </div>
-            <div>
-                <button type="submit" className="btn btn-primary btn-block" disabled={formik.isSubmitting}>
-                    Đăng nhập
+            <div className="text-center my-4">
+                <button type="submit"
+                        className="btn btn-primary btn-block w-50" disabled={formik.isSubmitting}>Đăng nhập
                 </button>
             </div>
+            <div className="d-flex justify-content-around align-items-center ">
+                <Link to="/forgot-password" className="forgot-password">Quên mật khẩu ?</Link>
+            </div>
+            <div className="divider d-flex align-items-center my-4"></div>
         </form>
     );
 }

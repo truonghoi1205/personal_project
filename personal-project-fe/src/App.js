@@ -7,6 +7,7 @@ import Login from "./Pages/auth/Login";
 import MainLayout from "./Layout/MainLayout";
 
 function App() {
+
     return (
         <Provider store={store}>
             <BrowserRouter>

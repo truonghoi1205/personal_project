@@ -1,19 +1,23 @@
-import * as Yup from 'yup';
+import React, {useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {useFormik} from "formik";
-import {Link, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import FormLogin from "../../Component/auth/FormLogin";
 import Helper from "../../utils/Helper";
 import {setToken} from "../../Redux/auth/authSlice";
-import * as AuthApi from "../../service/auth/AuthService";
+import AuthApi from "../../Apis/AuthApi"
+import {Modal} from 'react-bootstrap';
 import 'react-toastify/dist/ReactToastify.css';
+import * as Yup from "yup";
+import Signup from "./SignUp";
 
 const validationSchema = Yup.object({
-    email: Yup.string().email().required("Vui lòng nhập email!"),
+    email: Yup.string().email('Email không hợp lệ').required("Vui lòng nhập email!"),
     password: Yup.string().required("Vui lòng nhập mật khẩu!")
 });
 
 function Login() {
+    const [showSignUpModal, setShowSignUpModal] = useState(false); // State to handle modal visibility
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const token = useSelector((state) => state.auth.token);
@@ -23,13 +27,13 @@ function Login() {
     }
 
     const formik = useFormik({
-        initialValues:  { email: '', password: '' },
+        initialValues: {email: '', password: ''},
         enableReinitialize: true,
         validationSchema,
-        onSubmit: async (values, { setSubmitting }) => {
+        onSubmit: async (values, {setSubmitting}) => {
             try {
                 const res = await AuthApi.login(values);
-                dispatch(setToken(res.data.accessToken) );
+                dispatch(setToken(res.data.accessToken));
                 navigate('/');
                 Helper.toastSuccess('Đăng nhập thành công!');
             } catch (error) {
@@ -39,28 +43,37 @@ function Login() {
         validateOnMount: false
     });
 
+    const handleSignUpClick = () => {
+        setShowSignUpModal(true);
+    };
+
+    const handleSignUpClose = () => {
+        setShowSignUpModal(false);
+    };
+
     return (
-        <div id="main-wrapper" className="login-page">
-            <div className="container h-100">
-                <div className="row justify-content-center h-100 align-items-center">
-                    <div className="col-md-6">
+        <section id="main-wrapper" className="vh-100 bg-body-tertiary">
+            <div className="container py-5 h-100">
+                <div className="row d-flex align-items-center justify-content-center h-100">
+                    <div className="col-md-8 col-lg-7 col-xl-6 ">
+                        <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+                             className="img-fluid" alt="Sample image"/>
+                    </div>
+                    <div className="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
                         <div className="authincation-content">
-                            <div className="auth-form">
-                                <div className="text-center mb-3">
-                                </div>
+                            <div>
                                 <h3 className="text-center mb-4 mt-2">Đăng Nhập</h3>
-                                <FormLogin formik={formik} />
-                                <div className=" mt-3 text-center">
-                                    <p><small>Hoặc</small></p>
-                                    <div className="d-inline-block">
-                                    </div>
-                                </div>
-                                <div className="new-account mt-3 text-center">
+                                <FormLogin formik={formik}/>
+                                <div className="mt-2 text-center">
                                     <p>
                                         Chưa có tài khoản ?{" "}
-                                        <Link to={"/signup"} className="text-primary">
+                                        <span
+                                            onClick={handleSignUpClick}
+                                            className="text-primary"
+                                            style={{cursor: 'pointer'}}
+                                        >
                                             Đăng ký
-                                        </Link>
+                                        </span>
                                     </p>
                                 </div>
                             </div>
@@ -68,8 +81,16 @@ function Login() {
                     </div>
                 </div>
             </div>
-        </div>
-    )
+            <Modal show={showSignUpModal} onHide={handleSignUpClose}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Đăng ký tài khoản</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Signup/>
+                </Modal.Body>
+            </Modal>
+        </section>
+    );
 }
 
 export default Login;

@@ -4,16 +4,17 @@ class Helper {
     static customStylesSelect = {
         control: (provided) => ({
             ...provided,
-            height: '54px',  // Set the desired height
-            minHeight: '54px',  // Ensure the height is not less than this value
+            height: '54px',
+            minHeight: '54px',
         }),
         valueContainer: (provided) => ({
             ...provided,
-            height: '54px',  // Match the height of the control
+            height: '54px',
             display: 'flex',
             alignItems: 'center',
         }),
     }
+
     static delay(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
@@ -31,6 +32,7 @@ class Helper {
             transition: Flip,
         });
     }
+
     static toastError(message) {
         toast.error(message, {
             position: "top-right",
@@ -49,9 +51,7 @@ class Helper {
         return price.toLocaleString("vi-VN", {style: "currency", currency: "VND"});
     }
 
-
     static showApiError(data) {
-
         let message = "";
         for (const key in data) {
             if (data.hasOwnProperty(key)) {
@@ -59,7 +59,6 @@ class Helper {
             }
         }
         Helper.toastError(message);
-
     }
 
     static parseError(error) {
@@ -72,13 +71,9 @@ class Helper {
             Helper.toastError(error.response.data.message);
             return;
         }
-        if (error.response.data) {
-            let mes = "";
-            for (const [key, value] of Object.entries(error.response.data)) {
-                mes += `${value}.`;
-
-            }
-            Helper.toastError(mes)
+        if (error.response && error.response.data) {
+            let mes = Object.values(error.response.data).join("");
+            Helper.toastError(mes);
         }
     }
 
@@ -94,7 +89,6 @@ class Helper {
     };
 
     static parseFloat(value) {
-        //value is "24,870.00"
         return Number.parseFloat(value.replace(',', ''));
     }
 

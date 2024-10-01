@@ -1,0 +1,29 @@
+.ico-is-valid {
+    background-position: right calc(2em + .1875em) center !important;
+}
+
+.eye-icon {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+.divider:after,
+.divider:before {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: #eee;
+}
+
+.forgot-password {
+    text-decoration: none;
+    color: #9f9f9f;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+    color: #0d6efd;
+}

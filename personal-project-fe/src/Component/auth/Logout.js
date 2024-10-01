@@ -1,57 +1,27 @@
-import {useDispatch} from "react-redux";
-import {logout} from "../../Redux/auth/authSlice";
-import {useState} from "react";
-import {Button, Modal} from "react-bootstrap";
-import logoutLottieData from "../../LottieData/logout.json";
-import {useTranslation} from "react-i18next";
+import { useDispatch } from "react-redux";
+import { logout } from "../../Redux/auth/authSlice";
+import 'bootstrap-icons/font/bootstrap-icons.css';
+import { useNavigate } from "react-router-dom";
 
 function Logout() {
-    const { t } = useTranslation();
     const dispatch = useDispatch();
-    const [show, setShow] = useState(false);
+    const navigate = useNavigate();
 
-    const handleLogout = (e) => {
-        dispatch(logout());
-    };
-
-    const handleShow = (e) => {
-        e.preventDefault();
-        setShow(true);
-    };
-
-    const handleClose = () => setShow(false);
+    const handleLogout = async () => {
+        await dispatch(logout());
+        navigate("/login");
+    }
 
     return (
-        <>
-            <a href="/" onClick={handleShow} className="m ai-icon">
-                <svg id="icon-logout" xmlns="http://www.w3.org/2000/svg" className="text-danger" width="28"
-                     height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
-                     strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-                    <polyline points="16 17 21 12 16 7"></polyline>
-                    <line x1="21" y1="12" x2="9" y2="12"></line>
-                </svg>
-            </a>
-
-            <Modal show={show} onHide={handleClose}>
-                <Modal.Body>
-                    <div className="w-50 mx-auto">
-                        <Lottie animationData={logoutLottieData}/>
-                    </div>
-                    <h4 className="text-center">{t("confirmLogout")}</h4>
-
-                    <div className="text-center mt-4">
-                        <Button className="mx-2" variant="secondary" onClick={handleClose}>
-                            {t("cancel")}
-                        </Button>
-                        <Button className="mx-2" variant="success" onClick={handleLogout}>
-                            {t("logout")}
-                        </Button>
-                    </div>
-                </Modal.Body>
-            </Modal>
-        </>
-    )
+        <li onClick={handleLogout} className="d-flex align-items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                 className="bi bi-box-arrow-right" viewBox="0 0 16 16">
+                <path fillRule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z"/>
+                <path fillRule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 1 0 .708.708l3-3z"/>
+            </svg>
+            <span className="ms-2">Logout</span>
+        </li>
+    );
 }
 
 export default Logout;
