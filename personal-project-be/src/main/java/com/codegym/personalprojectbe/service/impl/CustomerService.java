@@ -7,7 +7,6 @@ import com.codegym.personalprojectbe.service.ICustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
 
 @Service
 public class CustomerService implements ICustomerService {
@@ -26,5 +25,10 @@ public class CustomerService implements ICustomerService {
         customer.setGender(null);
         customer.setDob(null);
         customerRepository.save(customer);
+    }
+
+    @Override
+    public Customer findByAccountId(Long id) {
+        return customerRepository.findCustomerByAccount_Id(id);
     }
 }

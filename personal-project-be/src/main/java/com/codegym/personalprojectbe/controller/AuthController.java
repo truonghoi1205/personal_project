@@ -1,11 +1,10 @@
 package com.codegym.personalprojectbe.controller;
 
 import com.codegym.personalprojectbe.configuration.JwtResponse;
+import com.codegym.personalprojectbe.configuration.UserPrinciple;
 import com.codegym.personalprojectbe.dto.AccountDTO;
-import com.codegym.personalprojectbe.model.Account;
-import com.codegym.personalprojectbe.model.Role;
-import com.codegym.personalprojectbe.model.RoleName;
-import com.codegym.personalprojectbe.model.VerificationToken;
+import com.codegym.personalprojectbe.dto.UserDTO;
+import com.codegym.personalprojectbe.model.*;
 import com.codegym.personalprojectbe.service.impl.*;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +24,7 @@ import java.util.Set;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/auth")
+@RequestMapping("/api/v1/auth")
 @CrossOrigin("*")
 public class AuthController {
 
@@ -37,6 +36,7 @@ public class AuthController {
     private final VerificationTokenService verificationTokenService;
     private final EmailService emailService;
     private final CustomerService customerService;
+    private final EmployeeService employeeService;
 
 
     @PostMapping("/login")
@@ -47,7 +47,7 @@ public class AuthController {
                     new UsernamePasswordAuthenticationToken(account.getEmail(), account.getPassword())
             );
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Thông tin đăng nhập không chính xác!");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Tài khoản hoặc mật khẩu không đúng!");
         }
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -100,5 +100,35 @@ public class AuthController {
         verificationTokenService.deleteToken(verificationToken);
 
         return ResponseEntity.ok("Tài khoản đã được kích hoạt thành công!");
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<?> me(Authentication authentication) {
+        UserPrinciple userPrinciple = (UserPrinciple) authentication.getPrincipal();
+        Account account = accountService.findByEmail(userPrinciple.getUsername());
+
+        IUser user = null;
+        for (Role role : account.getRoles()) {
+            if (role.getName().equals(RoleName.ROLE_USER.toString())) {
+                user = customerService.findByAccountId(account.getId());
+            }
+            if (
+                    role.getName().equals(RoleName.ROLE_EMPLOYEE.toString())
+                            ||
+                            role.getName().equals(RoleName.ROLE_ADMIN.toString())
+            ) {
+                user = employeeService.findByAccountId(account.getId());
+            }
+        }
+
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Người dùng không tồn tại");
+        }
+
+        UserDTO userDTO = new UserDTO();
+        userDTO.setUser(user);
+        userDTO.setRoles(account.getRoles());
+
+        return new ResponseEntity<>(userDTO, HttpStatus.OK);
     }
 }
