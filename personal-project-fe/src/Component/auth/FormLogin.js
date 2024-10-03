@@ -1,8 +1,9 @@
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import PasswordInput from "./PasswordInput";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { Spinner } from 'react-bootstrap'; // Thêm Spinner từ react-bootstrap
 
-function FormLogin({formik}) {
+function FormLogin({ formik, loading }) {
     return (
         <form onSubmit={formik.handleSubmit}>
             <div className="w-75 m-auto">
@@ -12,7 +13,7 @@ function FormLogin({formik}) {
                         className={`form-control ${formik.touched.email && formik.errors.email ? 'is-invalid' : ''}`}
                         id="email"
                         name="email"
-                        type="text invalid"
+                        type="text"
                         placeholder="Email"
                         onChange={formik.handleChange}
                         value={formik.values.email}
@@ -35,7 +36,8 @@ function FormLogin({formik}) {
             </div>
             <div className="text-center my-4">
                 <button type="submit"
-                        className="btn btn-primary btn-block w-50" disabled={formik.isSubmitting}>Đăng nhập
+                        className="btn btn-primary btn-block w-50" disabled={formik.isSubmitting || loading}>
+                    {loading ? <Spinner animation="border" size="sm" /> : "Đăng nhập"}
                 </button>
             </div>
             <div className="d-flex justify-content-around align-items-center ">

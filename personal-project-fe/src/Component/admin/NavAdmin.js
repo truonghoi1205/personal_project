@@ -1,5 +1,9 @@
-function Nav() {
-
+function NavAdmin() {
+    return (
+        <div>
+            aaaaaaaaaaaaaaaaa
+        </div>
+    );
 }
 
-export default Nav;
+export default NavAdmin;

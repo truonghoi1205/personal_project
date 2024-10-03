@@ -1,12 +1,12 @@
 import React from "react";
 import PasswordInput from "./PasswordInput";
 
-function SignUpForm({formik, isLoading}) {
+function FormSignUp({formik, isLoading}) {
     return (
         <form onSubmit={formik.handleSubmit}>
-            <div>
+            <div  className="w-75 m-auto">
                 <div className="mb-3">
-                    <label>Tên người dùng</label>
+                    <label>Tên</label>
                     <input
                         className="form-control"
                         id="name"
@@ -14,6 +14,7 @@ function SignUpForm({formik, isLoading}) {
                         type="text"
                         onChange={formik.handleChange}
                         value={formik.values.name}
+                        placeholder="Tên người dùng"
                     />
                     {formik.touched.name && formik.errors.name ? (
                         <div className="text-danger">{formik.errors.name}</div>
@@ -28,6 +29,7 @@ function SignUpForm({formik, isLoading}) {
                         type="text"
                         onChange={formik.handleChange}
                         value={formik.values.email}
+                        placeholder="Email"
                     />
                     {formik.touched.email && formik.errors.email ? (
                         <div className="text-danger">{formik.errors.email}</div>
@@ -38,6 +40,7 @@ function SignUpForm({formik, isLoading}) {
                         formik={formik}
                         fieldName="password"
                         label="Mật khẩu"
+                        placeholder="Mật khẩu"
                     />
                 </div>
                 <div className="mb-3">
@@ -45,6 +48,7 @@ function SignUpForm({formik, isLoading}) {
                         formik={formik}
                         fieldName="confirmPassword"
                         label="Nhập lại mật khẩu"
+                        placeholder="Nhập lại mật khẩu"
                     />
                 </div>
             </div>
@@ -52,7 +56,7 @@ function SignUpForm({formik, isLoading}) {
             <div className="text-center mt-4">
                 <button
                     type="submit"
-                    className="btn btn-primary btn-block w-100"
+                    className="btn btn-primary btn-block w-50"
                     disabled={formik.isSubmitting}
                 >
                     {isLoading ? (
@@ -60,12 +64,13 @@ function SignUpForm({formik, isLoading}) {
                             <span className="visually-hidden">Loading...</span>
                         </div>
                     ) : (
-                        'Đăng Ký'
+                        'Đăng ký'
                     )}
                 </button>
             </div>
+            <div className="divider d-flex align-items-center my-4"></div>
         </form>
     );
 }
 
-export default SignUpForm;
+export default FormSignUp;
