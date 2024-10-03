@@ -35,7 +35,7 @@ public class EmailService {
                 + "                <table align=\"center\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"600\" style=\"border-collapse: collapse;\">"
                 + "                    <!-- Header -->"
                 + "                    <tr>"
-                + "                        <td align=\"center\" bgcolor=\"#FC650B\" style=\"padding: 40px 0 30px 0;\">"
+                + "                        <td align=\"center\" bgcolor=\"#0d6efd\" style=\"padding: 40px 0 30px 0;\">"
                 + "                        </td>"
                 + "                    </tr>"
                 + "                    <!-- Body -->"
@@ -44,7 +44,7 @@ public class EmailService {
                 + "                            <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\">"
                 + "                                <tr>"
                 + "                                    <td style=\"color: #333333; text-align: center; font-family: Arial, sans-serif; font-size: 24px;\">"
-                + "                                        <b style=\"margin-bottom: 30px;\">Chào mừng đến với Real Estate Platform!</b>"
+                + "                                        <b style=\"margin-bottom: 30px;\">Chào mừng đến với Stylish Store!</b>"
                 + "                                    </td>"
                 + "                                </tr>"
                 + "                                <tr>"
@@ -54,12 +54,12 @@ public class EmailService {
                 + "                                </tr>"
                 + "                                <tr>"
                 + "                                    <td align=\"center\">"
-                + "                                        <a href=\"" + confirmationUrl + "\" style=\"background-color: #FC650B; color: white; padding: 15px 25px; text-decoration: none; font-size: 16px; border-radius: 5px; font-family: Arial, sans-serif;\">Kích hoạt tài khoản</a>"
+                + "                                        <a href=\"" + confirmationUrl + "\" style=\"background-color: #0d6efd; color: white; padding: 15px 25px; text-decoration: none; font-size: 16px; border-radius: 5px; font-family: Arial, sans-serif;\">Kích hoạt tài khoản</a>"
                 + "                                    </td>"
                 + "                                </tr>"
                 + "                                <tr>"
                 + "                                    <td style=\"padding: 30px 0 0 0; color: #777777; font-family: Arial, sans-serif; font-size: 14px; line-height: 20px;\">"
-                + "                                        Nếu bạn không đăng ký tài khoản này, vui lòng bỏ qua email này hoặc <a href=\"mailto:support@realestateplatform.com\" style=\"color: #FC650B; text-decoration: none;\">liên hệ với chúng tôi</a>."
+                + "                                        Nếu bạn không đăng ký tài khoản này, vui lòng bỏ qua email này hoặc <a href=\"mailto:support@realestateplatform.com\" style=\"color: #0d6efd; text-decoration: none;\">liên hệ với chúng tôi</a>."
                 + "                                    </td>"
                 + "                                </tr>"
                 + "                            </table>"
@@ -67,11 +67,11 @@ public class EmailService {
                 + "                    </tr>"
                 + "                    <!-- Footer -->"
                 + "                    <tr>"
-                + "                        <td bgcolor=\"#FC650B\" style=\"padding: 30px 30px 30px 30px;\">"
+                + "                        <td bgcolor=\"#0d6efd\" style=\"padding: 30px 30px 30px 30px;\">"
                 + "                            <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\">"
                 + "                                <tr>"
                 + "                                    <td style=\"color: #ffffff; text-align: center; font-family: Arial, sans-serif; font-size: 14px;\" width=\"75%\">"
-                + "                                        &copy; 2024 Real Estate Platform. All rights reserved.<br/>"
+                + "                                        &copy; 2024 Stylish Store. All rights reserved.<br/>"
                 + "                                    </td>"
                 + "                                </tr>"
                 + "                            </table>"
@@ -90,4 +90,6 @@ public class EmailService {
 
         javaMailSender.send(message);
     }
+
+
 }

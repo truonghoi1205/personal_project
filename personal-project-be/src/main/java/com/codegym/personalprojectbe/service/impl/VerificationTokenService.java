@@ -35,4 +35,9 @@ public class VerificationTokenService implements IVerificationTokenService {
     public VerificationToken getVerificationTokenByAccount(Account currentAccount) {
         return tokenRepository.getVerificationTokenByAccount(currentAccount);
     }
+
+    @Override
+    public void save(VerificationToken verificationToken) {
+        tokenRepository.save(verificationToken);
+    }
 }

@@ -9,4 +9,6 @@ public interface IVerificationTokenService {
     void deleteToken(VerificationToken token);
 
     VerificationToken getVerificationTokenByAccount(Account currentAccount);
+
+    void save(VerificationToken verificationToken);
 }

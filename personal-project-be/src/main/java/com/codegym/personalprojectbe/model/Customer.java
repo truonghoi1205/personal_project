@@ -1,5 +1,6 @@
 package com.codegym.personalprojectbe.model;
 
+import com.codegym.personalprojectbe.dto.UserDTO;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -8,7 +9,7 @@ import java.sql.Date;
 @Data
 @Entity
 @Table(name = "customers")
-public class Customer implements IUser{
+public class Customer extends UserDTO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,4 +23,5 @@ public class Customer implements IUser{
     @OneToOne
     @JoinColumn(name = "account_id")
     private Account account;
+
 }
