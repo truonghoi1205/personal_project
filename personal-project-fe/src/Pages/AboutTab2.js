@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "../style/scss/About.scss";
 
-function About() {
+function AboutTab2() {
     const [activeTab, setActiveTab] = useState("tab5");
     const [fade, setFade] = useState(true);
 
@@ -75,4 +75,4 @@ function About() {
     );
 }
 
-export default About;
+export default AboutTab2;

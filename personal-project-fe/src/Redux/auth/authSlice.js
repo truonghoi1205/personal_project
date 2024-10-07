@@ -13,7 +13,6 @@ const initialState = {
 export const fetchUser = createAsyncThunk('auth/fetchUser', async (token, { rejectWithValue }) => {
     try {
         const res = await UserApi.getCurrentUser();// Gọi API để lấy thông tin người dùng
-        console.log(res.data)
         return res.data; // Trả về dữ liệu người dùng
     } catch (err) {
         return rejectWithValue(err.response.data); // Trả về lỗi nếu API thất bại

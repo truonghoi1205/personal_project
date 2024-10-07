@@ -8,7 +8,6 @@ import { setToken } from "../../Redux/auth/authSlice";
 import AuthApi from "../../Apis/AuthApi"
 import 'react-toastify/dist/ReactToastify.css';
 import * as Yup from "yup";
-import FormSignUp from "../../Component/auth/FormSignUp";
 
 const validationSchema = Yup.object({
     email: Yup.string().email('Email không hợp lệ').required("Vui lòng nhập email!"),

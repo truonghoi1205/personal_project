@@ -1,0 +1,37 @@
+.dropdown-product {
+  position: relative;
+
+  .dropdown-menu {
+    display: block;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: white;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    transform: translateY(-20px);
+    max-height: 0;
+    overflow: hidden;
+    transition: opacity 0.4s ease, transform 0.4s ease, max-height 0.4s ease;
+    margin-top: 10px;
+    border: none  ;
+
+    .dropdown-item {
+      padding: 8px 12px;
+      font-size: 14px;
+      text-transform: capitalize;
+      text-decoration: none;
+      color: black;
+
+      &:hover {
+        background-color: #f8f9fa;
+      }
+    }
+  }
+
+  &:hover .dropdown-menu {
+    opacity: 1; /* Hiện lên dần */
+    transform: translateY(0); /* Trả về vị trí ban đầu */
+    max-height: 200px; /* Chiều cao lớn hơn để hiển thị menu từ từ */
+  }
+}

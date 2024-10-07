@@ -42,6 +42,9 @@ function FormSignUp({formik, isLoading}) {
                         label="Mật khẩu"
                         placeholder="Mật khẩu"
                     />
+                    {formik.touched.password && formik.errors.password && (
+                        <div className="text-danger">{formik.errors.password}</div>
+                    )}
                 </div>
                 <div className="mb-3">
                     <PasswordInput
@@ -50,6 +53,9 @@ function FormSignUp({formik, isLoading}) {
                         label="Nhập lại mật khẩu"
                         placeholder="Nhập lại mật khẩu"
                     />
+                    {formik.touched.confirmPassword && formik.errors.confirmPassword && (
+                        <div className="text-danger">{formik.errors.confirmPassword}</div>
+                    )}
                 </div>
             </div>
 

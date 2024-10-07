@@ -17,7 +17,7 @@ const VerifyAccount = () => {
 
     useEffect(() => {
         if (token) {
-            AuthApi.confirmEmail(token)
+            AuthApi.confirmAccount(token)
                 .then(response => {
                     setSuccess(true);
                     setMessage('Tài khoản đã được xác minh thành công!');

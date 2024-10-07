@@ -24,15 +24,11 @@ function ForgotPassword() {
             setIsLoading(false);
             return;
         }
-
         try {
-            const formData = new URLSearchParams();
-            formData.append('email', email);
-            await AuthApi.forgotPassword(formData);
+            await AuthApi.forgotPassword(email);
             setSent(true);
         } catch (error) {
-            setErrorMessage(error.response.data);
-            console.error(error); // Log the error for debugging
+            console.error(error);
             Helper.toastError(error.response.data);
         } finally {
             setIsLoading(false);
@@ -50,25 +46,24 @@ function ForgotPassword() {
                     <div className="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
                         {sent ? (
                             <div className="p-4 text-center">
-                                <h4 className="mb-5">Email đặt lại mật khẩu đã được gửi, vui lòng kiểm tra!</h4>
-                                <Link to={"/"} className="btn btn-success ms-2">Quay về trang chủ</Link>
+                                <h4 className="mb-3">Email đặt lại mật khẩu đã được gửi, vui lòng kiểm tra email của bạn!</h4>
+                                <Link to={"/login"} className="btn btn-primary ms-2">Quay lại trang đăng nhập</Link>
                             </div>
                         ) : (
                             <div className="auth-form">
                                 <h3 className="text-center mb-4 mt-2">Khôi Phục Mật Khẩu</h3>
                                 <form onSubmit={handleSubmit} className="w-75 m-auto">
                                     <div className="mb-3 ">
-                                        <label className="mb-1">Email</label>
+                                        <label className="">Email</label>
                                         <input
                                             type="email"
                                             className="form-control"
                                             placeholder="Nhập email của bạn"
                                             value={email}
                                             onChange={(e) => setEmail(e.target.value)}
-                                            required
                                         />
+                                        {errorMessage && <p className="text-danger text-start">{errorMessage}</p>}
                                     </div>
-                                    {errorMessage && <div className="text-danger text-center">{errorMessage}</div>}
                                     <div className="text-center">
                                         <button type="submit" className="btn btn-primary btn-block w-25" disabled={isLoading}>
                                             {isLoading ? (

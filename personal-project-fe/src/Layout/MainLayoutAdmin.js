@@ -1,8 +1,8 @@
-import NavAdmin from "./NavAdmin";
-import HeaderAdmin from "./HeaderAdmin";
+import NavAdmin from "../Component/admin/NavAdmin";
+import HeaderAdmin from "../Component/admin/HeaderAdmin";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
-import {fetchUser} from "../../Redux/auth/authSlice";
+import {fetchUser} from "../Redux/auth/authSlice";
 
 function MainLayoutAdmin() {
 

@@ -1,8 +1,11 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import {useEffect} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import Nav from '../Component/Nav/Nav';
 import {fetchUser} from "../Redux/auth/authSlice";
 import Home from "../Pages/home/Home";
+import Footer from "../Component/Footer/Footer";
+import AboutTab2 from "../Pages/AboutTab2";
+import AboutTab1 from "../Pages/AboutTab1";
 
 export default function MainLayout() {
     const dispatch = useDispatch();
@@ -17,8 +20,11 @@ export default function MainLayout() {
 
     return (
         <div>
-            <Nav />
+            <Nav/>
             <Home/>
+            <AboutTab1/>
+            <AboutTab2/>
+            <Footer/>
         </div>
     );
 }
