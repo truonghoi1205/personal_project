@@ -45,6 +45,8 @@ public class ProductService implements IProductService {
                 .stock(productDTO.getStock())
                 .build();
 
+
+
         Set<Image> images = new HashSet<>();
 //        if (productDTO.getImages() != null) {
 //            for (String url : productDTO.getImages()) {

@@ -3,7 +3,7 @@ package com.codegym.personalprojectbe.controller;
 import com.codegym.personalprojectbe.configuration.JwtResponse;
 import com.codegym.personalprojectbe.configuration.UserPrinciple;
 import com.codegym.personalprojectbe.dto.AccountDTO;
-import com.codegym.personalprojectbe.dto.NewPasswordDTO;
+import com.codegym.personalprojectbe.dto.PasswordDTO;
 import com.codegym.personalprojectbe.dto.UserDTO;
 import com.codegym.personalprojectbe.model.*;
 import com.codegym.personalprojectbe.service.impl.*;
@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 @RestController
@@ -39,7 +38,7 @@ public class AuthController {
     private final EmailService emailService;
     private final CustomerService customerService;
 
-
+    //đăng nhập
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Account account) {
         Authentication authentication;
@@ -79,6 +78,7 @@ public class AuthController {
         return ResponseEntity.ok(new JwtResponse(currentAccount.getId(), jwt, userDetails.getAuthorities()));
     }
 
+    //đănng ký tài khoản
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody AccountDTO accountDTO) throws MessagingException {
         if (accountService.existsByEmail(accountDTO.getEmail())) {
@@ -108,7 +108,8 @@ public class AuthController {
         return ResponseEntity.ok("Đăng ký thành công! Vui lòng kiểm tra email để kích hoạt tài khoản.");
     }
 
-    @GetMapping("/confirm")
+    //kích hoạt tài khoản
+    @GetMapping("/confirm-account")
     public ResponseEntity<?> confirmAccount(@RequestParam("token") String token) {
         VerificationToken verificationToken = verificationTokenService.getVerificationToken(token);
 
@@ -129,7 +130,7 @@ public class AuthController {
         return ResponseEntity.ok("Tài khoản đã được kích hoạt thành công!");
     }
 
-
+    // lấy thông tin của tài khoản đó
     @GetMapping("/me")
     public ResponseEntity<?> me(Authentication authentication) {
         UserPrinciple userPrinciple = (UserPrinciple) authentication.getPrincipal();
@@ -168,14 +169,16 @@ public class AuthController {
         return ResponseEntity.ok(userDTO);
     }
 
-    @GetMapping("/confirmEmail")
-    public ResponseEntity<?> confirmEmail(@RequestParam("token") String token) {
-        return accountService.confirmEmail(token, verificationTokenService);
+    //quên mật khẩu
+    @PostMapping("/forgot-password/{email}")
+    public ResponseEntity<?> forgotPassword(@PathVariable String email) throws MessagingException {
+        return accountService.forgotPassword(email);
+    }
+    //cập nhật lại mk mới khi xác nhận trong mail
+    @PutMapping("/reset-password")
+    public ResponseEntity<?> resetPassword(@RequestParam("token") String token,
+                                               @RequestBody PasswordDTO passwordDTO) {
+        return accountService.resetPassword(token, passwordDTO, passwordEncoder);
     }
 
-    @PutMapping("/forgot-password")
-    public ResponseEntity<?> forgetPassword(@RequestParam("token") String token,
-                                                  @RequestBody NewPasswordDTO newPasswordDTO) {
-        return accountService.forgetPassword(verificationTokenService, token, newPasswordDTO, passwordEncoder);
-    }
 }

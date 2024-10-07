@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
-public class NewPasswordDTO {
+public class PasswordDTO {
     private String currentPassword;
 
     @NotNull(message = "Nhập mật khẩu mới")

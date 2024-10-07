@@ -11,4 +11,6 @@ public interface IVerificationTokenService {
     VerificationToken getVerificationTokenByAccount(Account currentAccount);
 
     void save(VerificationToken verificationToken);
+
+    VerificationToken findByAccount(Account account);
 }
