@@ -92,6 +92,17 @@ class Helper {
         return Number.parseFloat(value.replace(',', ''));
     }
 
+    static getAbbreviation(name) {
+        const words = name.split(" ");
+        return words.map(word => word.charAt(0).toUpperCase()).join(""); // Lấy ký tự đầu của mỗi từ
+    }
+
+    static formatUrl = (name) => {
+        const normalizedStr = name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D');
+        return normalizedStr.toLowerCase().replace(/ /g, '-');
+    };
+
+
 }
 
 export default Helper;

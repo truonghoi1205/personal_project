@@ -5,7 +5,6 @@ import "../style/scss/About.scss";
 function AboutTab1() {
     const [activeTab, setActiveTab] = useState("tab1");
     const [fade, setFade] = useState(true);
-
     const handleTabChange = (tab) => {
         setFade(false);
         setTimeout(() => {
@@ -13,7 +12,6 @@ function AboutTab1() {
             setFade(true);
         }, 150);
     };
-
     return (
         <section className="about-tab">
             <div className="bg-body-tertiary text-center p-5">
@@ -62,7 +60,6 @@ function AboutTab1() {
                     </ul>
                 </div>
             </div>
-
             <div id="tabs-content-one">
                 <div className={`container text-center py-5 ${fade ? 'about-tab--fade-in' : 'about-tab--fade-out'}`}>
                     {activeTab === "tab1" && (
@@ -97,5 +94,4 @@ function AboutTab1() {
         </section>
     );
 }
-
 export default AboutTab1;

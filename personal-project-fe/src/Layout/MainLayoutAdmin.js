@@ -8,13 +8,17 @@ function MainLayoutAdmin() {
 
     const dispatch = useDispatch();
     const token = useSelector((state) => state.auth.token);
-
+    const { status } = useSelector((state) => state.auth);
 
     useEffect(() => {
         if (token) {
             dispatch(fetchUser());
         }
     }, [dispatch, token]);
+
+    if (status === 'loading') {
+        return <div>Đang tải thông tin người dùng...</div>;
+    }
 
     return(
         <div>

@@ -5,17 +5,19 @@ import UserApi from '../../Apis/UserApi';
 const initialState = {
     user: null,
     token: localStorage.getItem('token') || null,
+    roles: [],
     isAuthenticated: !!localStorage.getItem('token'),
-    status: 'idle'
+    status: 'idle',
 };
 
 // Thunk để lấy thông tin người dùng từ API
-export const fetchUser = createAsyncThunk('auth/fetchUser', async (token, { rejectWithValue }) => {
+export const fetchUser = createAsyncThunk('auth/fetchUser', async (_, { getState, rejectWithValue }) => {
+    const token = getState().auth.token; // Lấy token từ trạng thái hiện tại
     try {
-        const res = await UserApi.getCurrentUser();// Gọi API để lấy thông tin người dùng
-        return res.data; // Trả về dữ liệu người dùng
+        const res = await UserApi.getCurrentUser(token); // Đảm bảo token được truyền
+        return res.data;
     } catch (err) {
-        return rejectWithValue(err.response.data); // Trả về lỗi nếu API thất bại
+        return rejectWithValue(err.response.data);
     }
 });
 
@@ -24,17 +26,16 @@ const authSlice = createSlice({
     initialState,
     reducers: {
         setToken: (state, action) => {
-            state.status = 'idle';
             state.token = action.payload;
-            state.isAuthenticated = true; // Đặt trạng thái xác thực
-            localStorage.setItem('token', action.payload); // Lưu token vào localStorage
+            state.isAuthenticated = true;
+            localStorage.setItem('token', action.payload);
         },
         logout: (state) => {
-            localStorage.removeItem('token'); // Xóa token khỏi localStorage
+            localStorage.removeItem('token');
             state.token = null;
             state.user = null;
-            state.isAuthenticated = false; // Đặt lại trạng thái xác thực
-            state.status = 'idle'; // Đặt lại trạng thái về idle
+            state.isAuthenticated = false;
+            state.status = 'idle'; // Đặt về 'idle' hoặc 'succeeded' khi người dùng đăng xuất
         },
     },
     extraReducers: (builder) => {
@@ -43,20 +44,20 @@ const authSlice = createSlice({
                 state.status = 'loading'; // Đang tải dữ liệu
             })
             .addCase(fetchUser.fulfilled, (state, action) => {
-                state.status = 'succeeded'; // Lấy dữ liệu thành công
-                state.isAuthenticated = true; // Xác thực thành công
-                state.user = action.payload; // Lưu thông tin người dùng
+                state.status = 'succeeded'; // Thành công
+                state.isAuthenticated = true;
+                state.roles = action.payload.roles || [];
+                state.user = action.payload;
             })
-            .addCase(fetchUser.rejected, (state, action) => {
-                state.status = 'failed'; // Lấy dữ liệu thất bại
-                state.isAuthenticated = false; // Không xác thực
+            .addCase(fetchUser.rejected, (state) => {
+                state.status = 'failed'; // Thất bại
+                state.isAuthenticated = false;
                 state.user = null;
-                localStorage.removeItem('token'); // Xóa token khỏi localStorage nếu thất bại
+                localStorage.removeItem('token'); // Xóa token nếu thất bại
             });
-    }
+    },
 });
 
-// Xuất ra các actions để dùng trong component
 export const { setToken, logout } = authSlice.actions;
 
 export default authSlice.reducer;

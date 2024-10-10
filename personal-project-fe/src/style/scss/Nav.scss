@@ -12,9 +12,10 @@
     transform: translateY(-20px);
     max-height: 0;
     overflow: hidden;
+    margin-top: 15px;
     transition: opacity 0.4s ease, transform 0.4s ease, max-height 0.4s ease;
-    margin-top: 10px;
-    border: none  ;
+    border: none;
+    z-index: 9999;
 
     .dropdown-item {
       padding: 8px 12px;
@@ -30,8 +31,24 @@
   }
 
   &:hover .dropdown-menu {
-    opacity: 1; /* Hiện lên dần */
-    transform: translateY(0); /* Trả về vị trí ban đầu */
-    max-height: 200px; /* Chiều cao lớn hơn để hiển thị menu từ từ */
+    opacity: 1;
+    transform: translateY(0);
+    max-height: 200px;
+  }
+
+}
+
+.user-menu {
+  display: flex;
+  align-items: center;
+
+  .username {
+    white-space: nowrap; // Ngăn không cho tên bị ngắt dòng
+    overflow: hidden; // Ẩn phần tên bị tràn
+    text-overflow: ellipsis; // Thêm dấu "..." nếu tên quá dài
+    max-width: 120px; // Đặt chiều rộng tối đa cho tên
   }
 }
+
+
+

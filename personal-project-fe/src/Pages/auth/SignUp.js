@@ -6,7 +6,6 @@ import {useFormik} from "formik";
 import Helper from "../../utils/Helper";
 import FormSignUp from "../../Component/auth/FormSignUp";
 import AuthApi from "../../Apis/AuthApi";
-import FormLogin from "../../Component/auth/FormLogin";
 
 const validationSchema = Yup.object({
     email: Yup.string().email("Vui lòng nhập email!").required("Vui lòng nhập email!"),
@@ -52,8 +51,7 @@ function Signup() {
             <div className="container py-5 h-100">
                 <div className="row d-flex align-items-center justify-content-center h-100">
                     <div className="col-md-8 col-lg-7 col-xl-6 ">
-                        <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
-                             className="img-fluid" alt="Sample image"/>
+                        <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp" className="img-fluid" alt="Sample drawing"/>
                     </div>
                     <div className="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
                         <div className="authincation-content">

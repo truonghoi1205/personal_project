@@ -1,16 +1,15 @@
-import Brand from "../Brand";
+import LogoBrand from "../LogoBrand";
 import "../../style/scss/Home.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import Helper from "../../utils/Helper";
 import { useEffect } from "react";
 import { fetchProducts } from "../../Redux/product/productSlice";
+import Helper from "../../utils/Helper";
 
 function Home() {
     const dispatch = useDispatch();
     const products = useSelector((state) => state.products.products);
     const status = useSelector((state) => state.products.status);
-    const error = useSelector((state) => state.products.error);
 
     useEffect(() => {
         if (status === "idle") {
@@ -18,9 +17,11 @@ function Home() {
         }
     }, [status, dispatch]);
 
+    console.log(products)
+
     return (
         <div>
-            <Brand />
+            <LogoBrand />
             <div className="container mb-5">
                 <div className="text-center">
                     <h3>Top sản phẩm</h3>
@@ -36,18 +37,13 @@ function Home() {
                                         alt="Product"
                                     />
                                     <div className="product-card__info">
-                                        <span className="product-card__name">{p?.productProperties[0] && (
-                                            <>{p.productProperties[0].value}</>
-                                        )}</span>
+                                        <span className="product-card__brand-name">{p.brand.name}</span>
                                     </div>
-                                    <div className="product-card__brand-name">
-                                        <p>{p?.name} {p?.productProperties[2] && (
-                                            <>{p.productProperties[2].value}</>
-                                        )}</p>
-
+                                    <div className="product-card__name">
+                                        <small>{p.name} {Helper.getAbbreviation(p.concentration)}</small>
                                     </div>
                                     <div className="product-card__price">
-                                        {Helper.formatPrice(p?.price)}
+                                        {p.productDetails[0]?.price}
                                     </div>
                                 </div>
                             </Link>

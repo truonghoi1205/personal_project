@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import React, { useState } from "react";
 import AuthApi from "../../Apis/AuthApi";
 import Helper from "../../utils/Helper";
+import sendMail from "../../LottieData/sendMail.json";
+import Lottie from "lottie-react";
 
 function ForgotPassword() {
     const [email, setEmail] = useState('');
@@ -41,13 +43,17 @@ function ForgotPassword() {
                 <div className="row d-flex align-items-center justify-content-center h-100">
                     <div className="col-md-8 col-lg-7 col-xl-6 ">
                         <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
-                             className="img-fluid" alt="Sample image"/>
+                             className="img-fluid" alt="Sample drawing"/>
                     </div>
                     <div className="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
                         {sent ? (
                             <div className="p-4 text-center">
-                                <h4 className="mb-3">Email đặt lại mật khẩu đã được gửi, vui lòng kiểm tra email của bạn!</h4>
-                                <Link to={"/login"} className="btn btn-primary ms-2">Quay lại trang đăng nhập</Link>
+                                <Lottie animationData={sendMail}/>
+                                <div style={{position: "relative", top: "-150px"}}>
+                                    <h4 className="mb-3">Email đặt lại mật khẩu đã được gửi, vui lòng kiểm tra email của
+                                        bạn!</h4>
+                                    <Link to={"/login"} className="btn btn-primary ms-2 mt-2">Quay lại trang đăng nhập</Link>
+                                </div>
                             </div>
                         ) : (
                             <div className="auth-form">

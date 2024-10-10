@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import "../style/scss/Brand.scss";
 
-function Brand() {
+function LogoBrand() {
     return (
         <div id="brand-container" className="app-brand container my-5">
             <h3 id="brand-title" className="app-brand__title text-center">Thương hiệu nổi tiếng</h3>
@@ -59,4 +59,4 @@ function Brand() {
     );
 }
 
-export default Brand;
+export default LogoBrand;

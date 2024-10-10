@@ -34,7 +34,7 @@ const VerifyAccount = () => {
 
                     setTimeout(() => {
                         navigate(`/login`);
-                    }, 3000000);
+                    }, 3000);
 
                     return () => clearInterval(timer);
                 });
@@ -43,8 +43,7 @@ const VerifyAccount = () => {
             setMessage('Mã xác thực không hợp lệ!');
             setLoading(false);
         }
-    }, []);
-
+    }, [token, navigate]);
 
     if (loading) {
         return <div className="text-center mt-5">Đang xử lý...</div>;

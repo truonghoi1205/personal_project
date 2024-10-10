@@ -9,7 +9,7 @@ import PasswordInput from "../../Component/auth/PasswordInput";
 // Sửa lại để đồng nhất tên của các trường
 const validationSchema = Yup.object({
     newPassword: Yup.string().required("Vui lòng nhập mật khẩu!"),
-    reEnterPassword: Yup.string() // Đổi thành 'reEnterPassword' để trùng khớp
+    reEnterPassword: Yup.string()
         .required("Xác nhận mật khẩu phải nhập!")
         .oneOf([Yup.ref('newPassword'), null], "Mật khẩu xác nhận không trùng với mật khẩu mới")
 });

@@ -1,9 +1,11 @@
-function PrivateRoute() {
-    return (
-        <div>
+import React from 'react';
+import { Outlet} from "react-router-dom";
 
-        </div>
-    );
-}
+const PrivateRoute = ({ requiredRole }) => {
+
+
+
+    return <Outlet />;
+};
 
 export default PrivateRoute;
