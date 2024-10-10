@@ -19,6 +19,7 @@ public class Customer extends UserDTO {
     private Boolean enable = false;
     private String phone;
     private String email;
+    private String avatar;
 
     @OneToOne
     @JoinColumn(name = "account_id")

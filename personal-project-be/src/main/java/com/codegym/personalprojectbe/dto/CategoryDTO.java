@@ -1,2 +1,10 @@
-package com.codegym.personalprojectbe.dto;public class CategoryDTO {
+package com.codegym.personalprojectbe.dto;
+
+import lombok.Data;
+
+@Data
+public class CategoryDTO {
+    private String name;
+    private String description;
+    private String image;
 }

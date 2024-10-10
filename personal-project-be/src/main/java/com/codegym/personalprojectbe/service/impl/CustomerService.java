@@ -24,6 +24,7 @@ public class CustomerService implements ICustomerService {
         customer.setEnable(true);
         customer.setGender(null);
         customer.setDob(null);
+        customer.setAvatar(null);
         customerRepository.save(customer);
     }
 
