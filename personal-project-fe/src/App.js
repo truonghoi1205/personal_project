@@ -18,31 +18,29 @@ import BrandPage from "./Pages/brand/BrandPage";
 import Product from "./Pages/product/Product";
 
 function App() {
-
-
     return (
         <Provider store={store}>
-        <BrowserRouter>
-            <Routes>
-                <Route path="/confirm-email" element={<ConfirmEmail/>}/>
-                <Route path="/verify-account" element={<VerifyAccount/>}/>
-                <Route path="/login" element={<Login/>}/>
-                <Route path="/register" element={<Signup/>}/>
-                <Route path="/forgot-password" element={<ForgotPassword/>}/>
-                <Route path="/reset-password" element={<ResetPassword/>}/>
-                <Route path="*" element={<Error/>}/>
-                <Route path="/" element={<MainLayout/>}/>
-                <Route path="/403" element={<Forbidden/>}/>
-                <Route path="/thuong-hieu" element={<BrandPage/>}/>
-                <Route path="/thuong-hieu/:brandName?" element={<Product />} />
-                <Route path="/phan-loai/:categoryName" element={<Product />} />
-                <Route path="/san-pham" element={<Product />} />
-                <Route element={<PrivateRoute requiredRoles={['ROLE_ADMIN']}/>} >
-                    <Route path="/admin" element={<MainLayoutAdmin/>}/>
-                </Route>
-            </Routes>
-            <ToastContainer/>
-        </BrowserRouter>
+            <BrowserRouter>
+                <Routes>
+                    <Route path="/confirm-email" element={<ConfirmEmail/>}/>
+                    <Route path="/verify-account" element={<VerifyAccount/>}/>
+                    <Route path="/login" element={<Login/>}/>
+                    <Route path="/register" element={<Signup/>}/>
+                    <Route path="/forgot-password" element={<ForgotPassword/>}/>
+                    <Route path="/reset-password" element={<ResetPassword/>}/>
+                    <Route path="*" element={<Error/>}/>
+                    <Route path="/" element={<MainLayout/>}/>
+                    <Route path="/403" element={<Forbidden/>}/>
+                    <Route path="/thuong-hieu" element={<BrandPage/>}/>
+                    <Route path="/thuong-hieu/:brandName" element={<Product/>}/>
+                    <Route path="/phan-loai/:categoryName" element={<Product/>}/>
+                    <Route path="/san-pham" element={<Product/>}/>
+                    <Route element={<PrivateRoute requiredRoles={['ROLE_ADMIN']}/>}>
+                        <Route path="/admin" element={<MainLayoutAdmin/>}/>
+                    </Route>
+                </Routes>
+                <ToastContainer/>
+            </BrowserRouter>
         </Provider>
     );
 }

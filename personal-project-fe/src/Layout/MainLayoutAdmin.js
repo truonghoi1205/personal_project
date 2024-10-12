@@ -1,10 +1,10 @@
 import NavAdmin from "../Component/admin/NavAdmin";
-import HeaderAdmin from "../Component/admin/HeaderAdmin";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
 import {fetchUser} from "../Redux/auth/authSlice";
+import Dashboard from "../Component/admin/Dashboard";
 
-function MainLayoutAdmin() {
+function MainLayoutAdmin({ children }) {
 
     const dispatch = useDispatch();
     const token = useSelector((state) => state.auth.token);
@@ -20,14 +20,17 @@ function MainLayoutAdmin() {
         return <div>Đang tải thông tin người dùng...</div>;
     }
 
-    return(
-        <div>
-            <NavAdmin/>
-            <div>
-                <HeaderAdmin/>
+    return (
+        <div className="admin-layout d-flex">
+            <Dashboard />
+            <div className="content-area col-10 p-0">
+                <NavAdmin />
+                <div className="main-content p-4">
+                    {children}
+                </div>
             </div>
         </div>
-    )
+    );
 }
 
 export default MainLayoutAdmin;

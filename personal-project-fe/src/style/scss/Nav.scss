@@ -42,11 +42,67 @@
   display: flex;
   align-items: center;
 
-  .username {
-    white-space: nowrap; // Ngăn không cho tên bị ngắt dòng
-    overflow: hidden; // Ẩn phần tên bị tràn
-    text-overflow: ellipsis; // Thêm dấu "..." nếu tên quá dài
-    max-width: 120px; // Đặt chiều rộng tối đa cho tên
+  &__icon-login {
+    width: 25px;
+    height: 29px;
+    fill: currentColor;
+  }
+
+  &__avatar-container {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  &__avatar {
+    width: 80px;
+  }
+
+  &__username {
+    max-width: 100px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    @media (max-width: 768px) {
+      max-width: 70px;
+    }
+  }
+
+  &__dropdown {
+    position: absolute;
+    top: 100%;
+    width: 180px;
+    right: 0;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    display: none;
+
+    &.show {
+      display: block;
+    }
+
+    ul {
+      padding: 0;
+      margin: 0;
+      list-style: none;
+
+      li {
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+
+        &:hover {
+          background-color: #f8f9fa;
+        }
+
+        i {
+          margin-right: 0.5rem;
+        }
+      }
+    }
   }
 }
 

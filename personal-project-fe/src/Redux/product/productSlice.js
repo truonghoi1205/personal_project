@@ -26,8 +26,9 @@ const productSlice = createSlice({
     name: 'products',
     initialState,
     reducers: {
-        resetFilteredProducts: (state) => {
-            state.filteredProducts = [];
+        resetProducts: (state) => {
+            state.products = [];
+            state.status = "idle";
         },
     },
     extraReducers: (builder) => {
@@ -69,6 +70,6 @@ const productSlice = createSlice({
     }
 });
 
-export const { resetFilteredProducts } = productSlice.actions;
+export const { resetProducts } = productSlice.actions;
 
 export default productSlice.reducer;

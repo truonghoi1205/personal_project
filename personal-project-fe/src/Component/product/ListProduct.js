@@ -11,6 +11,8 @@ function ListProduct({ selectedBrand, selectedCategory }) {
     const [filterType, setFilterType] = useState("all");
     const products = useSelector((state) => state.products.products);
 
+    console.log(products)
+
     useEffect(() => {
         if (selectedBrand) {
             setFilterType("brand");
