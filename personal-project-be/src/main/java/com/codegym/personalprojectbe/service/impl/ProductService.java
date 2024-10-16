@@ -2,10 +2,7 @@ package com.codegym.personalprojectbe.service.impl;
 
 import com.codegym.personalprojectbe.dto.ProductDTO;
 import com.codegym.personalprojectbe.dto.ProductDetailDTO;
-import com.codegym.personalprojectbe.model.Brand;
-import com.codegym.personalprojectbe.model.Image;
-import com.codegym.personalprojectbe.model.Product;
-import com.codegym.personalprojectbe.model.ProductDetail;
+import com.codegym.personalprojectbe.model.*;
 import com.codegym.personalprojectbe.repository.IBrandRepository;
 import com.codegym.personalprojectbe.repository.ICategoryRepository;
 import com.codegym.personalprojectbe.repository.IImageRepository;
@@ -18,6 +15,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -35,7 +33,10 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Product createProduct(ProductDTO productDTO) {
+    public void createProductWithDetails(ProductDTO productDTO) {
+        Category category = categoryRepository.findById(productDTO.getCategoryId()).orElseThrow();
+        Brand brand = brandRepository.findById(productDTO.getBrandId()).orElseThrow();
+
         Random random = new Random();
         int randomNumber = 100000 + random.nextInt(900000);
         String generatedCode = "MSP-" + randomNumber;
@@ -57,15 +58,35 @@ public class ProductService implements IProductService {
                 .description(productDTO.getDescription())
                 .concentration(productDTO.getConcentration())
                 .session(productDTO.getSeason())
-                .brand(brandRepository.findByName(productDTO.getBrand().getName()))
-                .category(categoryRepository.findByName(productDTO.getCategory().getName()))
+                .category(category)
+                .brand(brand)
                 .build();
-        return productRepository.save(product);
+
+        List<ProductDetail> details = productDTO.getProductDetails().stream()
+                .map(detailDTO -> ProductDetail.builder()
+                        .volume(detailDTO.getVolume())
+                        .stock(detailDTO.getStock())
+                        .price(detailDTO.getPrice())
+                        .product(product)
+                        .build())
+                .collect(Collectors.toList());
+
+        product.setProductDetails(details);
+        productRepository.save(product);
     }
 
     @Override
-    public ProductDetail createProductDetail(ProductDetailDTO productDetailDTO) {
-        return null;
+    public void deleteProductById(Long id) {
+        if (productRepository.existsById(id)) {
+            productRepository.deleteById(id);
+        } else {
+            throw new RuntimeException("Sản phẩm không tồn tại với ID: " + id);
+        }
+    }
+
+    @Override
+    public Product getProductById(Long id) {
+        return productRepository.findById(id).orElse(null);
     }
 
 

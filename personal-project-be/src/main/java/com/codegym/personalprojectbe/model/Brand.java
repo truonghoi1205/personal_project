@@ -17,7 +17,6 @@ public class Brand {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    @Column(columnDefinition = "longtext")
     private String description;
     private String image;
     private String logo;

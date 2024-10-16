@@ -1,7 +1,5 @@
 package com.codegym.personalprojectbe.dto;
 
-import com.codegym.personalprojectbe.model.Brand;
-import com.codegym.personalprojectbe.model.Category;
 import lombok.Data;
 
 import java.util.List;
@@ -13,7 +11,8 @@ public class ProductDTO {
     private String description;
     private String concentration;
     private String season;
-    private Category category;
-    private Brand brand;
+    private Long categoryId;
+    private Long brandId;
     private List<String> images;
+    private List<ProductDetailDTO> productDetails;
 }
