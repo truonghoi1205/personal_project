@@ -11,7 +11,7 @@ const initialState = {
 };
 
 // Thunk để lấy thông tin người dùng từ API
-export const fetchUser = createAsyncThunk('auth/fetchUser', async (_, { getState, rejectWithValue }) => {
+export const fetchUser = createAsyncThunk('Auth/fetchUser', async (_, { getState, rejectWithValue }) => {
     const token = getState().auth.token; // Lấy token từ trạng thái hiện tại
     try {
         const res = await UserApi.getCurrentUser(token); // Đảm bảo token được truyền

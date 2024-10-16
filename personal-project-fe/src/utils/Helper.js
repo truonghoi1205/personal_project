@@ -93,16 +93,17 @@ class Helper {
     }
 
     static getAbbreviation(name) {
-        const words = name.split(" ");
-        return words.map(word => word.charAt(0).toUpperCase()).join(""); // Lấy ký tự đầu của mỗi từ
+        const specialCases = ["Eau de Parfum", "Eau de Toilette"];
+        if (specialCases.includes(name)) {
+            return name.split(" ").map(word => word.charAt(0).toUpperCase()).join("");
+        }
+        return name;
     }
 
     static formatUrl = (name) => {
         const normalizedStr = name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D');
         return normalizedStr.toLowerCase().replace(/ /g, '-');
     };
-
-
 }
 
 export default Helper;

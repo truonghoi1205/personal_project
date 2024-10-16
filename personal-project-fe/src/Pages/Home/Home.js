@@ -5,6 +5,8 @@ import { fetchProducts, resetProducts } from "../../Redux/product/productSlice";
 import LogoBrand from "../LogoBrand";
 import "../../style/scss/Home.scss";
 import Helper from "../../utils/Helper";
+import Lottie from "lottie-react";
+import empty from '../../LottieData/empty.json'
 
 function Home() {
     const dispatch = useDispatch();
@@ -47,7 +49,7 @@ function Home() {
                             </div>
                         ))
                     ) : (
-                        <div>Không có sản phẩm nào</div>
+                        <Lottie animationData={empty}/>
                     )}
                 </div>
             </div>

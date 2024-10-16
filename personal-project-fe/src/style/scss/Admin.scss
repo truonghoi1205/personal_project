@@ -71,6 +71,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+
     img {
       width: 80px;
     }
@@ -104,3 +105,125 @@
 }
 
 
+.dashboard-sidebar {
+  .dashboard-item {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 16px;
+    transition: background 0.3s ease;
+
+    i {
+      margin-right: 8px;
+    }
+
+    &:hover {
+      background-color: #1a1a1a;
+    }
+
+    &.active {
+      background-color: #343a40;
+      font-weight: bold;
+      border-left: 4px solid #007bff;
+    }
+  }
+}
+
+.hv-text {
+  width: 0;
+  overflow: hidden;
+  transition: 0.5s;
+}
+
+.hover-show-text:hover .hv-text {
+  width: 140px;
+}
+
+.table {
+  font-size: 14px;
+  border-collapse: separate;
+  border-spacing: 0 10px;
+
+  thead {
+    th {
+      text-align: center;
+      vertical-align: middle;
+    }
+  }
+
+  tbody {
+    tr {
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+
+      &:hover {
+        transform: scale(1.02);
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      }
+
+      td {
+        text-align: center;
+        vertical-align: middle;
+        border: none;
+      }
+    }
+  }
+}
+
+.bi-info-circle:hover,
+.bi-pencil-square:hover,
+.bi-trash3:hover {
+  color: #28a745;
+}
+
+.bi-trash3:hover {
+  color: #dc3545;
+}
+
+.upload-container {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+  text-align: center;
+  display: block;
+  position: relative;
+  cursor: pointer;
+
+  .file-input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  .upload-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    gap: 8px;
+
+    i {
+      font-size: 48px;
+    }
+
+    p {
+      margin: 0;
+      font-size: 16px;
+    }
+  }
+}
+
+.product-description p {
+  margin: 0;
+}

@@ -4,7 +4,7 @@ import Helper from "../../utils/Helper";
 import {useLocation, useNavigate} from "react-router-dom";
 import React, {useState} from "react";
 import * as Yup from "yup";
-import PasswordInput from "../../Component/auth/PasswordInput";
+import PasswordInput from "../../Component/Auth/PasswordInput";
 
 // Sửa lại để đồng nhất tên của các trường
 const validationSchema = Yup.object({

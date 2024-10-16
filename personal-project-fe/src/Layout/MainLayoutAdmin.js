@@ -1,11 +1,11 @@
 import NavAdmin from "../Component/admin/NavAdmin";
-import {useDispatch, useSelector} from "react-redux";
-import {useEffect} from "react";
-import {fetchUser} from "../Redux/auth/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { fetchUser } from "../Redux/auth/authSlice";
 import Dashboard from "../Component/admin/Dashboard";
+import {Outlet} from "react-router-dom";
 
-function MainLayoutAdmin({ children }) {
-
+function MainLayoutAdmin() {
     const dispatch = useDispatch();
     const token = useSelector((state) => state.auth.token);
     const { status } = useSelector((state) => state.auth);
@@ -26,7 +26,7 @@ function MainLayoutAdmin({ children }) {
             <div className="content-area col-10 p-0">
                 <NavAdmin />
                 <div className="main-content p-4">
-                    {children}
+                    <Outlet />
                 </div>
             </div>
         </div>

@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
-import Logout from "../auth/Logout";
+import { useLocation } from "react-router-dom";
+import Logout from "../Auth/Logout";
 import Lottie from "lottie-react";
 import avatar from "../../LottieData/avatar.json";
 import { useState } from "react";
@@ -18,10 +19,10 @@ function NavAdmin() {
         <div className='p-0'>
             {isAuthenticated && (
                 <div className="d-flex align-items-center shadow-sm justify-content-between position-relative">
-                    <p className='fs-3 m-0 ms-4'> Tổng quan</p>
+                    <p className='fs-3 m-0 ms-4'>...</p>
                     <div className='d-flex'>
-                        <div className=" d-flex align-items-center info-admin" onClick={toggleDropdown}>
-                            <Lottie className="lottie-avatar" animationData={avatar}/>
+                        <div className="d-flex align-items-center info-admin" onClick={toggleDropdown}>
+                            <Lottie className="lottie-avatar" animationData={avatar} />
                             <h6 className="mb-0 pe-3">
                                 {user?.name}
                             </h6>
@@ -30,7 +31,7 @@ function NavAdmin() {
                             <ul className="list-unstyled">
                                 <li><i className="bi bi-person-circle"></i> Tài khoản của tôi</li>
                                 <li><i className="bi bi-gear"></i> Đổi mật khẩu</li>
-                                <Logout/>
+                                <Logout />
                             </ul>
                         </div>
                         <div className="notification-icon px-3 py-2 me-4">

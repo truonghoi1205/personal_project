@@ -4,7 +4,7 @@ import * as Yup from "yup";
 import {useSelector} from "react-redux";
 import {useFormik} from "formik";
 import Helper from "../../utils/Helper";
-import FormSignUp from "../../Component/auth/FormSignUp";
+import FormSignUp from "../../Component/Auth/FormSignUp";
 import AuthApi from "../../Apis/AuthApi";
 
 const validationSchema = Yup.object({

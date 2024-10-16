@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
 import {Link, useNavigate} from "react-router-dom";
-import FormLogin from "../../Component/auth/FormLogin";
+import FormLogin from "../../Component/Auth/FormLogin";
 import Helper from "../../utils/Helper";
 import { setToken } from "../../Redux/auth/authSlice";
 import AuthApi from "../../Apis/AuthApi"

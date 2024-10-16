@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom"; // Dùng để lấy và điều chỉnh URL
+import { useParams } from "react-router-dom";
 import Nav from '../../Component/Nav/Nav';
 import Footer from "../../Component/Footer/Footer";
 import { NavLink } from "react-router-dom";
-import ListBrand from "../../Component/brand/ListBrand";
-import ListProduct from "../../Component/product/ListProduct";
+import ListBrand from "../../Component/Brand/ListBrand";
+import ListProduct from "../../Component/Product/ListProduct";
 
 function Product() {
     const { brandName } = useParams();

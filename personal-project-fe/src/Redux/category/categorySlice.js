@@ -7,7 +7,6 @@ const initialState = {
     error: null,
 };
 
-// Thunk để fetch toàn bộ brands
 export const fetchCategories = createAsyncThunk('categories/fetchCategories', async () => {
     const response = await CategoryApi.getAllCategory();
     return response.data;
@@ -24,7 +23,7 @@ const categorySlice = createSlice({
             })
             .addCase(fetchCategories.fulfilled, (state, action) => {
                 state.status = 'succeeded';
-                state.categories = action.payload;
+                state.categories = Array.isArray(action.payload) ? action.payload : [];
             })
             .addCase(fetchCategories.rejected, (state, action) => {
                 state.status = 'failed';

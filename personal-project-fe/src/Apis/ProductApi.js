@@ -7,11 +7,14 @@ class ProductApi {
     static createProduct(product) {
         return axiosInstance.post('/api/v1/products', product);
     }
-    static updateProduct(product, data) {
-        return axiosInstance.put(`/api/v1/products/${product}`, data);
+    static updateProduct(id, data) {
+        return axiosInstance.put(`/api/v1/products/${id}`, data);
     }
-    static deleteProduct(product) {
-        return axiosInstance.delete(`/api/v1/products/${product}`);
+    static deleteProduct(id) {
+        return axiosInstance.delete(`/api/v1/products/${id}`);
+    }
+    static getProductById(id) {
+        return axiosInstance.get(`/api/v1/products/${id}`);
     }
     static getAllProductByBrand(brand) {
         return axiosInstance.get(`/api/v1/products/thuong-hieu/${brand}`);

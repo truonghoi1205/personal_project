@@ -1,4 +1,4 @@
-import Logout from "../../Component/auth/Logout";
+import Logout from "../Auth/Logout";
 import {Link} from "react-router-dom";
 import Lottie from "lottie-react";
 import avatar from "../../LottieData/avatar.json";
