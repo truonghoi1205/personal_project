@@ -16,5 +16,10 @@ public interface IProductService {
 
     void deleteProductById(Long id);
 
-    Product getProductById(Long id);
+    Product findProductById(Long id);
+
+    void updateProduct(Long id, ProductDTO productDTO);
+
+    Product findBySlug(String slug);
+
 }

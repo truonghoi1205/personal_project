@@ -1,7 +1,6 @@
 package com.codegym.personalprojectbe.controller;
 
 import com.codegym.personalprojectbe.dto.CategoryDTO;
-import com.codegym.personalprojectbe.exception.ResourceNotFoundException;
 import com.codegym.personalprojectbe.model.Category;
 import com.codegym.personalprojectbe.service.ICategoryService;
 import lombok.RequiredArgsConstructor;

@@ -37,6 +37,7 @@ public class AuthController {
     private final VerificationTokenService verificationTokenService;
     private final EmailService emailService;
     private final CustomerService customerService;
+    private final CartService cartService;
 
     //đăng nhập
     @PostMapping("/login")
@@ -97,8 +98,8 @@ public class AuthController {
         account.setRoles(roles);
 
         accountService.save(account);
-        customerService.createCustomerRegister(account);
-
+        Customer customer = customerService.createCustomerRegister(account);
+        cartService.createCart(customer);
         VerificationToken token = verificationTokenService.createVerificationToken(account);
         String confirmationUrl = "http://localhost:3000/verify-account?token=" + token.getToken();
 
@@ -156,6 +157,7 @@ public class AuthController {
             userDTO.setRoles(account.getRoles());
         }
         if (isUser) {
+
             // Lưu thông tin người dùng vào UserDTO
             userDTO.setId(account.getId());
             userDTO.setName(account.getName());
@@ -164,6 +166,7 @@ public class AuthController {
             userDTO.setPhone(customer.getPhone());
             userDTO.setGender(customer.getGender());
             userDTO.setDob(customer.getDob());
+            userDTO.setCustomerId(customer.getId());
         }
 
         return ResponseEntity.ok(userDTO);

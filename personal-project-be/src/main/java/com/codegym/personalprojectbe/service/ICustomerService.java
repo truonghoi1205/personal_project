@@ -5,7 +5,8 @@ import com.codegym.personalprojectbe.model.Customer;
 
 public interface ICustomerService {
 
-    void createCustomerRegister(Account account);
+    Customer createCustomerRegister(Account account);
 
     Customer findByAccountId(Long id);
+
 }

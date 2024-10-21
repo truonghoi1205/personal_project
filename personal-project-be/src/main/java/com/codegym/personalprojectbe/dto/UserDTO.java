@@ -15,4 +15,5 @@ public class UserDTO {
     private String gender;
     private String phone;
     private Set<Role> roles;
+    private Long customerId;
 }

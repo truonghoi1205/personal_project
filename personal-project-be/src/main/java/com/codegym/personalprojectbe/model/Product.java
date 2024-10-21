@@ -21,9 +21,12 @@ public class Product {
     private Long id;
     private String sku;
     private String name;
+    @Column(columnDefinition = "longtext")
     private String description;
+    private String slug;
+    private String version;
     private String concentration;
-    private String session;
+    private String season;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
@@ -32,7 +35,6 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "brand_id")
     private Brand brand;
-
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<ProductDetail> productDetails;

@@ -15,7 +15,7 @@ public class CustomerService implements ICustomerService {
     private ICustomerRepository customerRepository;
 
     @Override
-    public void createCustomerRegister(Account account) {
+    public Customer createCustomerRegister(Account account) {
         Customer customer = new Customer();
         customer.setAccount(account);
         customer.setName(account.getName());
@@ -25,7 +25,7 @@ public class CustomerService implements ICustomerService {
         customer.setGender(null);
         customer.setDob(null);
         customer.setAvatar(null);
-        customerRepository.save(customer);
+        return customerRepository.save(customer);
     }
 
     @Override

@@ -1,9 +1,7 @@
 package com.codegym.personalprojectbe.controller;
 
 import com.codegym.personalprojectbe.dto.ProductDTO;
-import com.codegym.personalprojectbe.dto.ProductDetailDTO;
 import com.codegym.personalprojectbe.model.Product;
-import com.codegym.personalprojectbe.model.ProductDetail;
 import com.codegym.personalprojectbe.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -42,10 +40,16 @@ public class ProductController {
         }
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateProduct(@PathVariable Long id, @RequestBody ProductDTO productDTO) {
+        productService.updateProduct(id, productDTO);
+        return new ResponseEntity<>("{}", HttpStatus.OK);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<?> detailProduct(@PathVariable Long id) {
         try {
-            Product product = productService.getProductById(id);
+            Product product = productService.findProductById(id);
             if (product == null) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy sản phẩm");
             }
@@ -56,25 +60,36 @@ public class ProductController {
     }
 
     @GetMapping("/thuong-hieu/{brandName}")
-    public ResponseEntity<?> getAllProductByBrand(@PathVariable String brandName) {
+    public ResponseEntity<List<Product>> getAllProductByBrand(@PathVariable String brandName) {
         String originalBrandName = brandName.replace("-", " ").toLowerCase();
         List<Product> products = productService.getAllProductByBrandName(originalBrandName);
 
         if (products.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không có sản phẩm nào cho thương hiệu: " + originalBrandName);
+            return ResponseEntity.noContent().build();
         }
         return ResponseEntity.ok(products);
     }
 
     @GetMapping("/phan-loai/{categoryName}")
-    public ResponseEntity<?> getAllProductByCategory(@PathVariable String categoryName) {
+    public ResponseEntity<List<Product>> getAllProductByCategory(@PathVariable String categoryName) {
         String originalCategoryName = categoryName.replace("-", " ").toLowerCase();
         List<Product> products = productService.getAllProductByCategoryName(originalCategoryName);
 
         if (products.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không có sản phẩm nào cho phân loại: " + originalCategoryName);
+            return ResponseEntity.noContent().build();
         }
         return ResponseEntity.ok(products);
     }
+
+    @GetMapping("/san-pham/{slug}")
+    public ResponseEntity<?> getProductBySlug(@PathVariable String slug) {
+        Product product = productService.findBySlug(slug);
+        if (product == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Không tìm thấy sản phẩm: " + slug);
+        }
+        return ResponseEntity.ok(product);
+    }
+
 
 }

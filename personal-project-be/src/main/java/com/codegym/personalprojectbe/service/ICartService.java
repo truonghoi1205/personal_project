@@ -1,2 +1,12 @@
-package com.codegym.personalprojectbe.service;public interface ICartService {
+package com.codegym.personalprojectbe.service;
+
+import com.codegym.personalprojectbe.model.Cart;
+import com.codegym.personalprojectbe.model.Customer;
+
+
+public interface ICartService {
+
+    Cart createCart(Customer customer);
+
+    Cart findByCustomerId(Long customerId);
 }

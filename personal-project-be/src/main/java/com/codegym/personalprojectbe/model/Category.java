@@ -20,5 +20,4 @@ public class Category {
     @Column(columnDefinition = "longtext")
     private String description;
     private String image;
-
 }

@@ -11,10 +11,7 @@ import com.codegym.personalprojectbe.service.IProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,7 +23,6 @@ public class ProductService implements IProductService {
     private final IBrandRepository brandRepository;
     private final ICategoryRepository categoryRepository;
 
-
     @Override
     public List<Product> getAllProducts() {
         return productRepository.findAll();
@@ -36,11 +32,9 @@ public class ProductService implements IProductService {
     public void createProductWithDetails(ProductDTO productDTO) {
         Category category = categoryRepository.findById(productDTO.getCategoryId()).orElseThrow();
         Brand brand = brandRepository.findById(productDTO.getBrandId()).orElseThrow();
-
         Random random = new Random();
         int randomNumber = 100000 + random.nextInt(900000);
         String generatedCode = "MSP-" + randomNumber;
-
         Set<Image> images = new HashSet<>();
         if (productDTO.getImages() != null) {
             for (String url : productDTO.getImages()) {
@@ -51,17 +45,17 @@ public class ProductService implements IProductService {
                 images.add(image);
             }
         }
-
         Product product = Product.builder()
                 .sku(generatedCode)
                 .name(productDTO.getName())
                 .description(productDTO.getDescription())
                 .concentration(productDTO.getConcentration())
-                .session(productDTO.getSeason())
+                .season(productDTO.getSeason())
+                .slug(generateSlug(productDTO.getName(), productDTO.getConcentration()))
+                .version(getShortVersion(productDTO.getConcentration()))
                 .category(category)
                 .brand(brand)
                 .build();
-
         List<ProductDetail> details = productDTO.getProductDetails().stream()
                 .map(detailDTO -> ProductDetail.builder()
                         .volume(detailDTO.getVolume())
@@ -85,9 +79,58 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Product getProductById(Long id) {
+    public Product findProductById(Long id) {
         return productRepository.findById(id).orElse(null);
     }
+
+    @Override
+    public void updateProduct(Long id, ProductDTO productDTO) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+
+        product.setName(productDTO.getName());
+        product.setDescription(productDTO.getDescription());
+        product.setConcentration(productDTO.getConcentration());
+        product.setSeason(productDTO.getSeason());
+        product.setBrand(brandRepository.findById(productDTO.getBrandId()).orElse(null));
+        product.setCategory(categoryRepository.findById(productDTO.getCategoryId()).orElse(null));
+
+        if (productDTO.getProductDetails() != null) {
+            Map<Integer, ProductDetail> existingDetailsMap = product.getProductDetails().stream()
+                    .collect(Collectors.toMap(ProductDetail::getVolume, detail -> detail));
+            List<ProductDetail> updatedDetails = productDTO.getProductDetails().stream()
+                    .map(detailDTO -> {
+                        ProductDetail detail = existingDetailsMap.get(detailDTO.getVolume());
+                        if (detail != null) {
+                            detail.setStock(detailDTO.getStock());
+                            detail.setPrice(detailDTO.getPrice());
+                        } else {
+                            detail = ProductDetail.builder()
+                                    .volume(detailDTO.getVolume())
+                                    .stock(detailDTO.getStock())
+                                    .price(detailDTO.getPrice())
+                                    .product(product)
+                                    .build();
+                        }
+                        return detail;
+                    })
+                    .collect(Collectors.toList());
+            product.setProductDetails(updatedDetails);
+        }
+//        if (productDTO.getImages() != null) {
+//            List<Image> images = productDTO.getImages().stream()
+//                    .map(imageUrl -> new Image(imageUrl, product))
+//                    .collect(Collectors.toList());
+//            product.setImages(images);
+//        }
+        productRepository.save(product);
+    }
+
+    @Override
+    public Product findBySlug(String slug) {
+        return productRepository.findBySlug(slug);
+    }
+
 
 
     @Override
@@ -98,6 +141,25 @@ public class ProductService implements IProductService {
     @Override
     public List<Product> getAllProductByCategoryName(String categoryName) {
         return productRepository.findByCategoryNameIgnoreCase(categoryName);
+    }
+
+    private String getShortVersion(String concentration) {
+        switch (concentration) {
+            case "Eau de Parfum":
+                return "edp";
+            case "Eau de Toilette":
+                return "edt";
+            default:
+                return concentration.toLowerCase().replaceAll(" ", "-");
+        }
+    }
+
+    private String generateSlug(String name, String concentration) {
+        String version = getShortVersion(concentration);
+        String rawSlug = name + " " + version;
+        return rawSlug.toLowerCase()
+                .replaceAll(" ", "-")
+                .replaceAll("[^a-z0-9-]", "");
     }
 
 }
