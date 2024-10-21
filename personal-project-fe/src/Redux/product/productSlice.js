@@ -1,8 +1,9 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import ProductApi from "../../Apis/ProductApi";
 
 const initialState = {
     products: [],
+    productDetail: null,
     status: 'idle',
     error: null,
 }
@@ -17,9 +18,11 @@ export const deleteProduct = createAsyncThunk('products/deleteProduct', async (i
     return id;
 });
 
-export const fetchProductById = createAsyncThunk('products/fetchProductById', async (id) => {
-    const response = await ProductApi.getProductById(id);
+
+export const fetchProductDetail = createAsyncThunk('products/fetchProductDetail', async (slug) => {
+    const response = await ProductApi.getProductBySlug(slug);
     return response.data;
+
 });
 
 export const fetchProductsByBrands = createAsyncThunk('products/fetchProductsByBrands', async (brandName) => {
@@ -38,6 +41,7 @@ const productSlice = createSlice({
     reducers: {
         resetProducts: (state) => {
             state.products = [];
+            state.productDetail = null;
             state.status = "idle";
         },
     },
@@ -66,17 +70,6 @@ const productSlice = createSlice({
                 state.status = 'failed';
                 state.error = action.error.message;
             })
-            .addCase(fetchProductById.pending, (state) => {
-                state.status = 'loading';
-            })
-            .addCase(fetchProductById.fulfilled, (state, action) => {
-                state.status = 'succeeded';
-                state.productDetail = action.payload;
-            })
-            .addCase(fetchProductById.rejected, (state, action) => {
-                state.status = 'failed';
-                state.error = action.error.message;
-            })
             .addCase(fetchProductsByBrands.pending, (state) => {
                 state.status = 'loading';
             })
@@ -98,10 +91,21 @@ const productSlice = createSlice({
             .addCase(fetchProductsByCategories.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.error.message;
+            })
+            .addCase(fetchProductDetail.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(fetchProductDetail.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.productDetail = action.payload;
+            })
+            .addCase(fetchProductDetail.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.error.message;
             });
     }
 });
 
-export const { resetProducts } = productSlice.actions;
+export const {resetProducts} = productSlice.actions;
 
 export default productSlice.reducer;

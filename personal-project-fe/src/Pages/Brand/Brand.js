@@ -6,7 +6,7 @@ import {fetchBrands} from "../../Redux/brand/brandSlice";
 import {Link} from "react-router-dom";
 import '../../style/scss/Brand.scss'
 
-function BrandPage() {
+function Brand() {
     const dispatch = useDispatch();
     const brands = useSelector((state) => state.brands.brands);
     const status = useSelector((state) => state.brands.status);
@@ -51,41 +51,37 @@ function BrandPage() {
     };
 
     return (
-        <div>
-            <Nav/>
-            <div className="container">
-                <p className="fs-1 text-center mt-4">Thương Hiệu</p>
-                <div className="sticky-top bg-white py-3">
-                    <div className="d-flex justify-content-center">
-                        {alphabet.map((letter) => (<span
-                            key={letter}
-                            className={`mx-2 cursor-pointer ${activeLetter === letter ? "active-letter" : ""}`}
-                            style={{fontSize: '1.5rem', cursor: 'pointer'}}
-                            onClick={() => scrollToLetter(letter)}
-                        >
+        <div className="container">
+            <p className="fs-1 text-center mt-4">Thương Hiệu</p>
+            <div className="sticky-top bg-white py-3">
+                <div className="d-flex justify-content-center">
+                    {alphabet.map((letter) => (<span
+                        key={letter}
+                        className={`mx-2 cursor-pointer ${activeLetter === letter ? "active-letter" : ""}`}
+                        style={{fontSize: '1.5rem', cursor: 'pointer'}}
+                        onClick={() => scrollToLetter(letter)}
+                    >
                                 {letter}
                             </span>))}
-                    </div>
-                </div>
-                <div className="row my-5 ms-5">
-                    {alphabet.map((letter) => (<div key={letter}
-                                                    className="col-12 col-md-6 col-lg-3 mb-4"
-                                                    ref={(el) => (brandRefs.current[letter] = el)}>
-                        <h5>{letter}</h5>
-                        {groupedBrands[letter] && groupedBrands[letter].length > 0 ? (<div>
-                            {groupedBrands[letter].map((brand, index) => (<p key={index} className="mb-1">
-                                <Link to={`/thuong-hieu/${formatBrandName(brand.name)}`}
-                                      className="text-black-50 brand__name">
-                                    {brand.name}
-                                </Link>
-                            </p>))}
-                        </div>) : (<p className="text-black-50">Không có thương hiệu nào.</p>)}
-                    </div>))}
                 </div>
             </div>
-            <Footer/>
+            <div className="row my-5 ms-5">
+                {alphabet.map((letter) => (<div key={letter}
+                                                className="col-12 col-md-6 col-lg-3 mb-4"
+                                                ref={(el) => (brandRefs.current[letter] = el)}>
+                    <h5>{letter}</h5>
+                    {groupedBrands[letter] && groupedBrands[letter].length > 0 ? (<div>
+                        {groupedBrands[letter].map((brand, index) => (<p key={index} className="mb-1">
+                            <Link to={`/thuong-hieu/${formatBrandName(brand.name)}`}
+                                  className="text-black-50 brand__name">
+                                {brand.name}
+                            </Link>
+                        </p>))}
+                    </div>) : (<p className="text-black-50">Không có thương hiệu nào.</p>)}
+                </div>))}
+            </div>
         </div>
     );
 }
 
-export default BrandPage;
+export default Brand;

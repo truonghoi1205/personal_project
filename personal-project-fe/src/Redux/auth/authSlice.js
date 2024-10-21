@@ -1,8 +1,9 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import UserApi from '../../Apis/UserApi';
+import { resetCart } from '../cart/cartSlice';
 
-// Khởi tạo trạng thái ban đầu
 const initialState = {
+    customerId: null,
     user: null,
     token: localStorage.getItem('token') || null,
     roles: [],
@@ -10,11 +11,10 @@ const initialState = {
     status: 'idle',
 };
 
-// Thunk để lấy thông tin người dùng từ API
 export const fetchUser = createAsyncThunk('Auth/fetchUser', async (_, { getState, rejectWithValue }) => {
-    const token = getState().auth.token; // Lấy token từ trạng thái hiện tại
+    const token = getState().auth.token;
     try {
-        const res = await UserApi.getCurrentUser(token); // Đảm bảo token được truyền
+        const res = await UserApi.getCurrentUser(token);
         return res.data;
     } catch (err) {
         return rejectWithValue(err.response.data);
@@ -34,26 +34,28 @@ const authSlice = createSlice({
             localStorage.removeItem('token');
             state.token = null;
             state.user = null;
+            state.roles = [];
             state.isAuthenticated = false;
-            state.status = 'idle'; // Đặt về 'idle' hoặc 'succeeded' khi người dùng đăng xuất
+            state.status = 'idle';
+            resetCart();
         },
     },
     extraReducers: (builder) => {
         builder
             .addCase(fetchUser.pending, (state) => {
-                state.status = 'loading'; // Đang tải dữ liệu
+                state.status = 'loading';
             })
             .addCase(fetchUser.fulfilled, (state, action) => {
-                state.status = 'succeeded'; // Thành công
+                state.status = 'succeeded';
                 state.isAuthenticated = true;
                 state.roles = action.payload.roles || [];
                 state.user = action.payload;
             })
             .addCase(fetchUser.rejected, (state) => {
-                state.status = 'failed'; // Thất bại
+                state.status = 'failed';
                 state.isAuthenticated = false;
                 state.user = null;
-                localStorage.removeItem('token'); // Xóa token nếu thất bại
+                localStorage.removeItem('token');
             });
     },
 });

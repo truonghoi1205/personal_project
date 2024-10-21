@@ -7,11 +7,12 @@ import "../../style/scss/Home.scss";
 import Helper from "../../utils/Helper";
 import Lottie from "lottie-react";
 import empty from '../../LottieData/empty.json'
+import AboutTab1 from "../AboutTab1";
+import AboutTab2 from "../AboutTab2";
 
 function Home() {
     const dispatch = useDispatch();
     const products = useSelector((state) => state.products.products);
-
     useEffect(() => {
         dispatch(resetProducts());
         dispatch(fetchProducts());
@@ -28,7 +29,7 @@ function Home() {
                     {Array.isArray(products) && products.length > 0 ? (
                         products.map((p, index) => (
                             <div className="col-3" key={index}>
-                                <Link to="/">
+                                <Link to={`/san-pham/${p.slug}`}>
                                     <div className="product-card">
                                         <img
                                             className="product-card__img"
@@ -53,6 +54,8 @@ function Home() {
                     )}
                 </div>
             </div>
+            <AboutTab1/>
+            <AboutTab2/>
         </div>
     );
 }

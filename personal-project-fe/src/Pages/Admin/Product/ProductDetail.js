@@ -1,9 +1,9 @@
 import React from 'react';
-import { Modal } from 'react-bootstrap';
+import {Modal} from 'react-bootstrap';
 import parse from 'html-react-parser';
-import Helper from "../../../utils/Helper"; // Import thư viện parse
+import Helper from "../../../utils/Helper";
 
-const ProductDetail = ({ show, handleClose, product }) => {
+const ProductDetail = ({show, handleClose, product}) => {
     const productImage = product?.images?.url || '';
     const productName = product?.name || 'N/A';
     const productSku = product?.sku || 'N/A';
@@ -11,6 +11,10 @@ const ProductDetail = ({ show, handleClose, product }) => {
     const productCategory = product?.category?.name || 'N/A';
     const productConcentration = product?.concentration || 'N/A';
     const descriptionHtml = product?.description || '';
+
+    const sortedDetails = product?.productDetails
+        ? [...product.productDetails].sort((a, b) => a.volume - b.volume)
+        : [];
 
     return (
         <Modal show={show} onHide={handleClose} size="lg">
@@ -20,7 +24,7 @@ const ProductDetail = ({ show, handleClose, product }) => {
             <Modal.Body>
                 <div className="row p-4">
                     <div className="col-md-4 text-center">
-                        <img src={productImage} alt="Product" className="img-fluid rounded" />
+                        <img src={productImage} alt="Product" className="img-fluid rounded"/>
                     </div>
                     <div className="col-md-8">
                         <h5 className="mb-3">{productName}</h5>
@@ -31,13 +35,15 @@ const ProductDetail = ({ show, handleClose, product }) => {
                             <p><strong>Nồng Độ:</strong> {productConcentration}</p>
                         </div>
                         <h5 className="mb-3">Chi Tiết Sản Phẩm:</h5>
-                        {product?.productDetails?.map((detail, index) => (
-                            <div key={index} className="mb-2 border p-2 rounded bg-light">
-                                <p className="mb-1"><strong>Dung Tích:</strong> {detail.volume} ml</p>
-                                <p className="mb-1"><strong>Số Lượng:</strong> {detail.stock}</p>
-                                <p className="mb-1"><strong>Giá:</strong> {Helper.formatPrice(detail.price)} </p>
-                            </div>
-                        ))}
+                        <div className='row'>
+                            {sortedDetails.map((detail, index) => (
+                                <div key={index} className="mb-2 border p-2 rounded bg-light col-5 me-2">
+                                    <p className="mb-1"><strong>Dung Tích:</strong> {detail.volume} ml</p>
+                                    <p className="mb-1"><strong>Số Lượng:</strong> {detail.stock}</p>
+                                    <p className="mb-1"><strong>Giá:</strong> {Helper.formatPrice(detail.price)}</p>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </div>
                 <div>

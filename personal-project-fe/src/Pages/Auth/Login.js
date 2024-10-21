@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
 import {Link, useNavigate} from "react-router-dom";
@@ -15,23 +15,25 @@ const validationSchema = Yup.object({
 });
 
 function Login() {
-    const [loading, setLoading] = useState(false); // State to handle loading
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const token = useSelector((state) => state.auth.token);
 
-    if (token) {
-        navigate('/');
-    }
+    useEffect(() => {
+        if (token) {
+            navigate('/');
+        }
+    }, [token, navigate])
 
     const formik = useFormik({
         initialValues: { email: '', password: '' },
         enableReinitialize: true,
         validationSchema,
         onSubmit: async (values, { setSubmitting }) => {
-            setLoading(true); // Bắt đầu tải
+            setLoading(true);
             try {
-                await Helper.delay(1000); // Thêm độ trễ 1 giây (1000ms)
+                await Helper.delay(1000);
                 const res = await AuthApi.login(values);
                 dispatch(setToken(res.data.token));
                 navigate('/');
@@ -39,8 +41,8 @@ function Login() {
             } catch (error) {
                 Helper.parseError(error);
             } finally {
-                setLoading(false); // Kết thúc tải
-                setSubmitting(false); // Kết thúc trạng thái submit
+                setLoading(false);
+                setSubmitting(false);
             }
         },
         validateOnMount: false

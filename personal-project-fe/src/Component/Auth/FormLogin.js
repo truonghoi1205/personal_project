@@ -17,6 +17,7 @@ function FormLogin({ formik, loading }) {
                         placeholder="Email"
                         onChange={formik.handleChange}
                         value={formik.values.email}
+                        autoComplete="username"
                     />
                     {formik.touched.email && formik.errors.email && (
                         <div className="text-danger">{formik.errors.email}</div>

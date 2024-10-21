@@ -3,6 +3,7 @@ import { logout } from "../../Redux/auth/authSlice";
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { useNavigate } from "react-router-dom";
 import Helper from "../../utils/Helper";
+import {resetCart} from "../../Redux/cart/cartSlice";
 
 function Logout() {
     const dispatch = useDispatch();
@@ -10,6 +11,7 @@ function Logout() {
 
     const handleLogout = async () => {
         await dispatch(logout());
+        dispatch(resetCart());
         navigate("/");
         Helper.toastSuccess('Đăng xuất thành công!');
     }

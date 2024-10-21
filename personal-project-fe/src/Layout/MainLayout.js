@@ -1,16 +1,13 @@
-import {useEffect} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Outlet } from 'react-router-dom';
 import Nav from '../Component/Nav/Nav';
-import {fetchUser} from "../Redux/auth/authSlice";
-import Home from "../Pages/Home/Home";
-import Footer from "../Component/Footer/Footer";
-import AboutTab2 from "../Pages/AboutTab2";
-import AboutTab1 from "../Pages/AboutTab1";
+import Footer from '../Component/Footer/Footer';
+import { fetchUser } from "../Redux/auth/authSlice";
 
 export default function MainLayout() {
     const dispatch = useDispatch();
     const token = useSelector((state) => state.auth.token);
-
 
     useEffect(() => {
         if (token) {
@@ -19,12 +16,12 @@ export default function MainLayout() {
     }, [dispatch, token]);
 
     return (
-        <div>
-            <Nav/>
-            <Home/>
-            <AboutTab1/>
-            <AboutTab2/>
-            <Footer/>
+        <div className="d-flex flex-column min-vh-100">
+            <Nav />
+            <div className="flex-grow-1">
+                <Outlet />
+            </div>
+            <Footer />
         </div>
     );
 }

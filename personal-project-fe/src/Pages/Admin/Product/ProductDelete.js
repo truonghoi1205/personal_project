@@ -1,6 +1,6 @@
 import { Button, Modal } from "react-bootstrap";
 
-function FormDelete({ showModal, handleClose, confirmDelete }) {
+function ProductDelete({ showModal, handleClose, confirmDelete }) {
     return (
         <Modal show={showModal} onHide={handleClose}>
             <Modal.Header closeButton>
@@ -16,4 +16,4 @@ function FormDelete({ showModal, handleClose, confirmDelete }) {
     );
 }
 
-export default FormDelete;
+export default ProductDelete;

@@ -4,9 +4,8 @@ import {useEffect} from "react";
 import {fetchCategories} from "../../Redux/category/categorySlice";
 import Helper from "../../utils/Helper";
 
-function DropdownMenu({onCategorySelect}) {
+function DropdownMenu() {
     const dispatch = useDispatch();
-
     const categories = useSelector((state) => state.categories.categories);
     const status = useSelector((state) => state.categories.status);
 
@@ -15,12 +14,6 @@ function DropdownMenu({onCategorySelect}) {
             dispatch(fetchCategories());
         }
     }, [status, dispatch]);
-
-
-    if (status === "loading") {
-        return <p>Đang tải danh sách thương hiệu...</p>;
-    }
-
 
     return (
         <div className="dropdown-product mx-2">

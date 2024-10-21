@@ -22,6 +22,9 @@ class ProductApi {
     static getAllProductByCategory(category) {
         return axiosInstance.get(`/api/v1/products/phan-loai/${category}`);
     }
+    static async getProductBySlug(slug) {
+        return axiosInstance.get(`/api/v1/products/san-pham/${slug}`);
+    }
 }
 
 export default ProductApi;

@@ -2,7 +2,7 @@ import Lottie from "lottie-react";
 import notFound from "../LottieData/notFound.json"
 import {useNavigate} from "react-router-dom";
 
-function Error() {
+function NotFound() {
     const navigate = useNavigate();
 
     const handleNavigateHome = () => {
@@ -10,7 +10,7 @@ function Error() {
     };
 
     return (
-        <div className="container w-50 text-center mt-5">
+        <div className="container w-50 text-center my-5">
             <Lottie animationData={notFound}/>
             <h5 className="notFound mb-3">Ối! Trang bạn đang tìm kiếm không tồn tại.</h5>
             <button className='btn btn-outline-dark fw-bold' style={{padding: 10}} onClick={handleNavigateHome}>
@@ -20,4 +20,4 @@ function Error() {
     );
 }
 
-export default Error;
+export default NotFound;

@@ -1,5 +1,4 @@
 import { useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
 import Logout from "../Auth/Logout";
 import Lottie from "lottie-react";
 import avatar from "../../LottieData/avatar.json";
