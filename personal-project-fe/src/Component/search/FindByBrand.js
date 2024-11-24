@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Helper from "../../utils/Helper";
 
-function ListBrand({ onBrandSelect }) {
+function FindByBrand() {
     const dispatch = useDispatch();
     const brands = useSelector((state) => state.brands.brands);
     const status = useSelector((state) => state.brands.status);
@@ -28,9 +28,11 @@ function ListBrand({ onBrandSelect }) {
     }
 
     return (
-        <div className="mt-3">
+        <div className="mt-5">
+            <h4>Thương hiệu</h4>
+            <input type="text" className="form-control form-control-sm mt-3 rounded-0 " placeholder="Tìm kiếm nhanh"/>
             {sortedBrands.length > 0 ? (
-                <ul className="list-unstyled custom-scrollbar">
+                <ul className="list-unstyled custom-scrollbar mt-3">
                     {sortedBrands.map((brand) => (
                         <li key={brand.id} className="mb-2">
                             <Link to={`/thuong-hieu/${Helper.formatUrl(brand.name)}`}>
@@ -46,4 +48,4 @@ function ListBrand({ onBrandSelect }) {
     );
 }
 
-export default ListBrand;
+export default FindByBrand;

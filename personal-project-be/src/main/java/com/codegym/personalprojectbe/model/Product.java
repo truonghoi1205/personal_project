@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.Set;
 
 
 @Entity
@@ -39,6 +40,7 @@ public class Product {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<ProductDetail> productDetails;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-    private List<Image> images;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(nullable = false, name = "product_id")
+    private Set<Image> images;
 }

@@ -18,8 +18,9 @@ public interface IProductService {
 
     Product findProductById(Long id);
 
-    void updateProduct(Long id, ProductDTO productDTO);
-
     Product findBySlug(String slug);
 
+    Product updateProduct(Long id, ProductDTO productDTO);
+
+    List<Product> getAllProductBySeason(String season);
 }

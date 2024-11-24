@@ -45,7 +45,8 @@ dependencies {
 
     // https://mvnrepository.com/artifact/org.ocpsoft.prettytime/prettytime
     implementation group: 'org.ocpsoft.prettytime', name: 'prettytime', version: '5.0.9.Final'
-
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.15.0'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
 }
 
 tasks.named('test') {

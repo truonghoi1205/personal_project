@@ -21,7 +21,7 @@ public class CartService implements ICartService {
     }
 
     @Override
-    public Cart findByCustomerId(Long customerId) {
+    public Cart findCartByCustomerId(Long customerId) {
         return cartRepository.findCartByCustomer_Id(customerId);
     }
 }

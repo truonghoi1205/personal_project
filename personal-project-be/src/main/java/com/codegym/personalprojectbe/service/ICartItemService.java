@@ -7,5 +7,9 @@ import java.util.List;
 public interface ICartItemService {
     List<CartItemDTO> findByCartId(Long cartId);
 
-    CartItem createCartItem(CartItemDTO cartItemDTO);
+    CartItem addToCart(CartItemDTO cartItemDTO);
+
+    void deleteCartItem(Long cartItemId);
+
+    CartItem updateQuantity(Long cartItemId, int quantity);
 }

@@ -19,8 +19,19 @@ public class ProductController {
     private IProductService productService;
 
     @GetMapping
-    public ResponseEntity<List<Product>> getAllProducts() {
-        List<Product> products = productService.getAllProducts();
+    public ResponseEntity<List<Product>> getAllProducts(@RequestParam(required = false) String season) {
+        List<Product> products;
+
+        if (season != null && !season.isBlank()) {
+            String originalSeason = season.replace("-", " ").toLowerCase();
+            products = productService.getAllProductBySeason(originalSeason);
+        } else {
+            products = productService.getAllProducts();
+        }
+
+        if (products.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
         return ResponseEntity.ok(products);
     }
 
@@ -42,9 +53,16 @@ public class ProductController {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateProduct(@PathVariable Long id, @RequestBody ProductDTO productDTO) {
-        productService.updateProduct(id, productDTO);
-        return new ResponseEntity<>("{}", HttpStatus.OK);
+        try {
+            Product updatedProduct = productService.updateProduct(id, productDTO);
+            return ResponseEntity.ok(updatedProduct);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy sản phẩm");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Cập nhật sản phẩm thất bại");
+        }
     }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<?> detailProduct(@PathVariable Long id) {
@@ -59,7 +77,7 @@ public class ProductController {
         }
     }
 
-    @GetMapping("/thuong-hieu/{brandName}")
+    @GetMapping("/brand/{brandName}")
     public ResponseEntity<List<Product>> getAllProductByBrand(@PathVariable String brandName) {
         String originalBrandName = brandName.replace("-", " ").toLowerCase();
         List<Product> products = productService.getAllProductByBrandName(originalBrandName);
@@ -70,7 +88,7 @@ public class ProductController {
         return ResponseEntity.ok(products);
     }
 
-    @GetMapping("/phan-loai/{categoryName}")
+    @GetMapping("/category/{categoryName}")
     public ResponseEntity<List<Product>> getAllProductByCategory(@PathVariable String categoryName) {
         String originalCategoryName = categoryName.replace("-", " ").toLowerCase();
         List<Product> products = productService.getAllProductByCategoryName(originalCategoryName);
@@ -81,7 +99,7 @@ public class ProductController {
         return ResponseEntity.ok(products);
     }
 
-    @GetMapping("/san-pham/{slug}")
+    @GetMapping("/product/{slug}")
     public ResponseEntity<?> getProductBySlug(@PathVariable String slug) {
         Product product = productService.findBySlug(slug);
         if (product == null) {
@@ -90,6 +108,4 @@ public class ProductController {
         }
         return ResponseEntity.ok(product);
     }
-
-
 }

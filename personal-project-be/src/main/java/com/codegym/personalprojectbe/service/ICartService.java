@@ -8,5 +8,6 @@ public interface ICartService {
 
     Cart createCart(Customer customer);
 
-    Cart findByCustomerId(Long customerId);
+
+    Cart findCartByCustomerId(Long customerId);
 }

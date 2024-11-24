@@ -35,16 +35,6 @@ public class ProductService implements IProductService {
         Random random = new Random();
         int randomNumber = 100000 + random.nextInt(900000);
         String generatedCode = "MSP-" + randomNumber;
-        Set<Image> images = new HashSet<>();
-        if (productDTO.getImages() != null) {
-            for (String url : productDTO.getImages()) {
-                Image image = Image.builder()
-                        .url(url)
-                        .build();
-                image = imageRepository.save(image);
-                images.add(image);
-            }
-        }
         Product product = Product.builder()
                 .sku(generatedCode)
                 .name(productDTO.getName())
@@ -56,6 +46,16 @@ public class ProductService implements IProductService {
                 .category(category)
                 .brand(brand)
                 .build();
+        Set<Image> images = new HashSet<>();
+        if (productDTO.getImages() != null) {
+            for (String url : productDTO.getImages()) {
+                Image image = Image.builder()
+                        .url(url)
+                        .build();
+                images.add(image);
+            }
+        }
+        product.setImages(images);
         List<ProductDetail> details = productDTO.getProductDetails().stream()
                 .map(detailDTO -> ProductDetail.builder()
                         .volume(detailDTO.getVolume())
@@ -64,10 +64,10 @@ public class ProductService implements IProductService {
                         .product(product)
                         .build())
                 .collect(Collectors.toList());
-
         product.setProductDetails(details);
         productRepository.save(product);
     }
+
 
     @Override
     public void deleteProductById(Long id) {
@@ -83,18 +83,22 @@ public class ProductService implements IProductService {
         return productRepository.findById(id).orElse(null);
     }
 
+
     @Override
-    public void updateProduct(Long id, ProductDTO productDTO) {
+    public Product findBySlug(String slug) {
+        return productRepository.findBySlug(slug);
+    }
+
+    @Override
+    public Product updateProduct(Long id, ProductDTO productDTO) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
-
         product.setName(productDTO.getName());
         product.setDescription(productDTO.getDescription());
         product.setConcentration(productDTO.getConcentration());
         product.setSeason(productDTO.getSeason());
         product.setBrand(brandRepository.findById(productDTO.getBrandId()).orElse(null));
         product.setCategory(categoryRepository.findById(productDTO.getCategoryId()).orElse(null));
-
         if (productDTO.getProductDetails() != null) {
             Map<Integer, ProductDetail> existingDetailsMap = product.getProductDetails().stream()
                     .collect(Collectors.toMap(ProductDetail::getVolume, detail -> detail));
@@ -115,23 +119,31 @@ public class ProductService implements IProductService {
                         return detail;
                     })
                     .collect(Collectors.toList());
+
             product.setProductDetails(updatedDetails);
         }
-//        if (productDTO.getImages() != null) {
-//            List<Image> images = productDTO.getImages().stream()
-//                    .map(imageUrl -> new Image(imageUrl, product))
-//                    .collect(Collectors.toList());
-//            product.setImages(images);
-//        }
-        productRepository.save(product);
+        if (productDTO.getImages() != null) {
+            Set<Image> imagesToRemove = product.getImages().stream()
+                    .filter(image -> !productDTO.getImages().contains(image.getUrl()))
+                    .collect(Collectors.toSet());
+            product.getImages().removeAll(imagesToRemove);
+            for (String imageUrl : productDTO.getImages()) {
+                boolean exists = product.getImages().stream()
+                        .anyMatch(image -> image.getUrl().equals(imageUrl));
+                if (!exists) {
+                    Image newImage = new Image();
+                    newImage.setUrl(imageUrl);
+                }
+            }
+        }
+
+        return productRepository.save(product);
     }
 
     @Override
-    public Product findBySlug(String slug) {
-        return productRepository.findBySlug(slug);
+    public List<Product> getAllProductBySeason(String season) {
+        return productRepository.findAllBySeasonIgnoreCase(season);
     }
-
-
 
     @Override
     public List<Product> getAllProductByBrandName(String brandName) {

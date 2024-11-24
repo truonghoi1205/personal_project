@@ -26,4 +26,5 @@ public class Account {
 
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
+
 }

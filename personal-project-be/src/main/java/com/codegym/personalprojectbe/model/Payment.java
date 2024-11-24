@@ -12,11 +12,15 @@ public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @ManyToOne
     @JoinColumn(name = "order_id")
     private Order order;
+
     private Date paymentDate;
     private Double amount;
     private String paymentMethod;
-    private String paymentStatus;
+
+    @Enumerated(EnumType.STRING)
+    private PaymentStatus paymentStatus;
 }

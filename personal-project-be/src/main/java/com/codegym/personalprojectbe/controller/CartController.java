@@ -17,10 +17,11 @@ public class CartController {
 
     @GetMapping("/customer/{customerId}")
     public ResponseEntity<Cart> getCartByCustomerId(@PathVariable Long customerId) {
-        Cart cart = cartService.findByCustomerId(customerId);
-        if (cart == null) {
+        Cart cart = cartService.findCartByCustomerId(customerId);
+        if (cart != null) {
+            return ResponseEntity.ok(cart);
+        } else {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(cart);
     }
 }
