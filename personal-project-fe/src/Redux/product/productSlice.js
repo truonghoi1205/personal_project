@@ -6,7 +6,7 @@ const initialState = {
     productDetail: null,
     status: 'idle',
     error: null,
-}
+};
 
 export const fetchProducts = createAsyncThunk('products/fetchProducts', async () => {
     const response = await ProductApi.getAllProducts();
@@ -18,11 +18,9 @@ export const deleteProduct = createAsyncThunk('products/deleteProduct', async (i
     return id;
 });
 
-
 export const fetchProductDetail = createAsyncThunk('products/fetchProductDetail', async (slug) => {
     const response = await ProductApi.getProductBySlug(slug);
     return response.data;
-
 });
 
 export const fetchProductsByBrands = createAsyncThunk('products/fetchProductsByBrands', async (brandName) => {
@@ -35,6 +33,11 @@ export const fetchProductsByCategories = createAsyncThunk('products/fetchProduct
     return response.data || [];
 });
 
+export const fetchProductsBySeason = createAsyncThunk('products/fetchProductsBySeason', async (season) => {
+    const response = await ProductApi.getAllProducts(season);
+    return response.data || [];
+});
+
 const productSlice = createSlice({
     name: 'products',
     initialState,
@@ -43,7 +46,7 @@ const productSlice = createSlice({
             state.products = [];
             state.productDetail = null;
             state.status = "idle";
-        },
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -100,6 +103,17 @@ const productSlice = createSlice({
                 state.productDetail = action.payload;
             })
             .addCase(fetchProductDetail.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.error.message;
+            })
+            .addCase(fetchProductsBySeason.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(fetchProductsBySeason.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.products = action.payload;
+            })
+            .addCase(fetchProductsBySeason.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.error.message;
             });

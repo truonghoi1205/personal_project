@@ -24,7 +24,7 @@ const brandSlice = createSlice({
             })
             .addCase(fetchBrands.fulfilled, (state, action) => {
                 state.status = 'succeeded';
-                state.brands = action.payload;  // Gán kết quả vào "state.brands"
+                state.brands = action.payload;
             })
             .addCase(fetchBrands.rejected, (state, action) => {
                 state.status = 'failed';

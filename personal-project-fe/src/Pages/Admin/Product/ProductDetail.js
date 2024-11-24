@@ -4,7 +4,7 @@ import parse from 'html-react-parser';
 import Helper from "../../../utils/Helper";
 
 const ProductDetail = ({show, handleClose, product}) => {
-    const productImage = product?.images?.url || '';
+    const productImage = product?.images[0]?.url || '';
     const productName = product?.name || 'N/A';
     const productSku = product?.sku || 'N/A';
     const productBrand = product?.brand?.name || 'N/A';
@@ -23,10 +23,10 @@ const ProductDetail = ({show, handleClose, product}) => {
             </Modal.Header>
             <Modal.Body>
                 <div className="row p-4">
-                    <div className="col-md-4 text-center">
-                        <img src={productImage} alt="Product" className="img-fluid rounded"/>
+                    <div className="col-md-6 text-center">
+                        <img src={productImage} alt="Product" className="img-fluid rounded" style={{ width: '300px' }} />
                     </div>
-                    <div className="col-md-8">
+                    <div className="col-md-6">
                         <h5 className="mb-3">{productName}</h5>
                         <div className="mb-3">
                             <p><strong>Mã Sản Phẩm:</strong> {productSku}</p>

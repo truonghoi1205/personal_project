@@ -6,8 +6,9 @@ import NavLinkItem from './NavLinkItem';
 import DropdownMenu from './DropdownMenu';
 import UserMenu from './UserMenu';
 import '../../style/scss/Nav.scss';
-import Cart from '../Cart';
+import CartItem from '../CartItem';
 import { fetchCartId, fetchCartItemByCart } from '../../Redux/cart/cartSlice';
+import {Link} from "react-router-dom";
 
 function Nav() {
     const dispatch = useDispatch();
@@ -46,26 +47,26 @@ function Nav() {
                 </div>
                 <div className="d-flex justify-content-end nav-block">
                     <NavLinkItem to="/" label="Trang Chủ" />
-                    <NavLinkItem to="gioi-thieu" label="Giới Thiệu" />
+                    <NavLinkItem to="/about" label="Giới Thiệu" />
                     <DropdownMenu />
-                    <NavLinkItem to="/thuong-hieu" label="Thương Hiệu" />
+                    <NavLinkItem to="/brands" label="Thương Hiệu" />
                     <NavLinkItem to="/blog" label="Blog" />
                 </div>
                 <div className="user-block d-flex align-items-center">
                     <UserMenu isAuthenticated={isAuthenticated} user={user} />
                     <i className="bi bi-heart mx-3 fs-5" style={{ cursor: 'pointer' }}></i>
-                    <div
-                        className="cart-container"
+                    <Link to="/cart"
+                        className="cart-container text-black"
                         onMouseEnter={handleMouseEnter}
                         onMouseLeave={handleMouseLeave}
                         style={{ cursor: 'pointer', position: 'relative' }}
                     >
                         <i className="bi bi-cart3 fs-5"></i>
-                        {cartItemCount > 0 && (
+                        {cartItemCount >= 0 && (
                             <span className="cart-item-count">{cartItemCount}</span>
                         )}
-                        <Cart cartId={cartId} isOpen={isCartOpen} />
-                    </div>
+                        <CartItem cartId={cartId} isOpen={isCartOpen} />
+                    </Link>
                 </div>
             </div>
         </div>

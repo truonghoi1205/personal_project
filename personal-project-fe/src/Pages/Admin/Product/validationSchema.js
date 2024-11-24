@@ -12,7 +12,7 @@ const validationSchema = Yup.object({
             price: Yup.number().required('Giá là bắt buộc'),
         })
     ).required('Chi tiết sản phẩm là bắt buộc').min(1, 'Phải có ít nhất một chi tiết sản phẩm'),
-    images: Yup.array().of(Yup.string().url("Đường dẫn không hợp lệ")).nullable(),
+    images: Yup.array().of(Yup.string().url("Đường dẫn không hợp lệ")),
 });
 
 export default validationSchema;

@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchCartItemByCart } from '../../Redux/cart/cartSlice';
-import Helper from '../../utils/Helper';
-import { fetchProducts } from '../../Redux/product/productSlice';
+import { fetchCartItemByCart } from '../Redux/cart/cartSlice';
+import Helper from '../utils/Helper';
+import { fetchProducts } from '../Redux/product/productSlice';
 
 const CartItem = ({ cartId, isOpen }) => {
     const dispatch = useDispatch();
@@ -22,7 +22,7 @@ const CartItem = ({ cartId, isOpen }) => {
             return (
                 <li key={item.id} className="cart-item d-flex bg-body-secondary align-items-center">
                     <img
-                        src={product?.imageUrl || 'default_image_url.jpg'}
+                        src={product?.images[0]?.url || 'default_image_url.jpg'}
                         alt={product?.name || 'Sản phẩm không rõ'}
                         className="cart-item-image me-3"
                         style={{ width: '60px', height: '60px', objectFit: 'cover', margin: "auto" }}
@@ -46,9 +46,9 @@ const CartItem = ({ cartId, isOpen }) => {
             <h5 className="fw-bold mb-3">Giỏ hàng</h5>
             {status === 'loading' && <p>Đang tải...</p>}
             {status === 'succeeded' && cartItems.length === 0 && (
-                <p className="text-center">Giỏ hàng của bạn trống.</p>
+                <p className="text-center">Giỏ hàng của bạn trống!</p>
             )}
-            {status === 'succeeded' && cartItems.length > 0 && (
+            {status === 'succeeded' && cartItems.length >= 0 && (
                 <>
                     <ul className="cart-items list-unstyled mb-3" style={{ maxHeight: '300px', overflowY: 'auto' }}>
                         {renderCartItems()}
@@ -61,7 +61,7 @@ const CartItem = ({ cartId, isOpen }) => {
                             )}
                         </span>
                     </div>
-                    <button className="cart-checkout-btn btn btn-danger w-100 mt-3">
+                    <button className="cart-checkout-btn btn btn-danger w-100 mt-3 rounded-0">
                         Xem giỏ hàng & thanh toán
                     </button>
                     <p className="cart-shipping-info text-center mt-2 text-muted">

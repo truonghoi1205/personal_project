@@ -26,6 +26,22 @@ export const fetchCartId = createAsyncThunk(
     }
 );
 
+export const deleteCartItem = createAsyncThunk(
+    'cart/deleteCartItem',
+    async (cartItemId) => {
+        await CartItemApi.deleteCartItem(cartItemId);
+        return cartItemId;
+    }
+);
+
+export const updateQuantity = createAsyncThunk(
+    'cart/updateQuantity',
+    async ({ cartItemId, quantity }) => {
+        await CartItemApi.updateQuantity(cartItemId, quantity);
+        return { cartItemId, quantity };
+    }
+);
+
 const cartSlice = createSlice({
     name: "cart",
     initialState,
@@ -56,9 +72,22 @@ const cartSlice = createSlice({
             .addCase(fetchCartItemByCart.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.error.message;
-            });
+            })
+            .addCase(deleteCartItem.fulfilled, (state, action) => {
+                const cartItemId = action.payload;
+                state.cartItems = state.cartItems.filter(item => item.id !== cartItemId);
+            })
+            .addCase(updateQuantity.fulfilled, (state, action) => {
+            const { cartItemId, quantity } = action.payload;
+            const item = state.cartItems.find(item => item.id === cartItemId);
+            if (item) {
+                const priceDifference = (quantity - item.quantity) * item.productDetail.price;
+                item.quantity = quantity;
+                state.total += priceDifference;
+            }
+        });
     },
 });
 
-export const { setCartId, resetCart } = cartSlice.actions; // Export hành động resetCart
+export const { setCartId, resetCart } = cartSlice.actions;
 export default cartSlice.reducer;

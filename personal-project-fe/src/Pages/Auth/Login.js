@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
-import {Link, useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import FormLogin from "../../Component/Auth/FormLogin";
 import Helper from "../../utils/Helper";
 import { setToken } from "../../Redux/auth/authSlice";
-import AuthApi from "../../Apis/AuthApi"
+import AuthApi from "../../Apis/AuthApi";
 import 'react-toastify/dist/ReactToastify.css';
 import * as Yup from "yup";
 
@@ -19,12 +19,19 @@ function Login() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const token = useSelector((state) => state.auth.token);
+    const roles = useSelector((state) => state.auth.roles);
+    const isAdmin = roles.some(role => role.name === 'ROLE_ADMIN');
+    const isUser = roles.some(role => role.name === 'ROLE_USER');
 
     useEffect(() => {
         if (token) {
-            navigate('/');
+            if (isAdmin) {
+                navigate('/admin');
+            } else if (isUser) {
+                navigate('/');
+            }
         }
-    }, [token, navigate])
+    }, [isAdmin, isUser, token, navigate]);
 
     const formik = useFormik({
         initialValues: { email: '', password: '' },
@@ -36,7 +43,6 @@ function Login() {
                 await Helper.delay(1000);
                 const res = await AuthApi.login(values);
                 dispatch(setToken(res.data.token));
-                navigate('/');
                 Helper.toastSuccess('Đăng nhập thành công!');
             } catch (error) {
                 Helper.parseError(error);
@@ -64,10 +70,7 @@ function Login() {
                                 <div className="mt-2 text-center">
                                     <p>
                                         Chưa có tài khoản ?{" "}
-                                        <Link to="/register"
-                                            className="text-primary"
-                                            style={{ cursor: 'pointer' }}
-                                        >
+                                        <Link to="/register" className="text-primary" style={{ cursor: 'pointer' }}>
                                             Đăng ký
                                         </Link>
                                     </p>

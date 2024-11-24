@@ -1,60 +1,73 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import cloudinaryConfig from "../config/cloudinaryConfig";
-import { Cloudinary } from 'cloudinary-core';
+import cloudinaryConfig from '../../config/cloudinaryConfig';
 
-const cloudinary = new Cloudinary({ cloud_name: cloudinaryConfig.cloudName });
-
-function UploadImage() {
-    const [images, setImages] = useState([]);
-    const [urls, setUrls] = useState([]);
-    const [loading, setLoading] = useState(false);
+function UploadImage({ onImagesChange, initialImages }) {
     const [error, setError] = useState('');
-    const [success, setSuccess] = useState('');
+    const [previewImages, setPreviewImages] = useState([]);
 
     const handleUpload = async (file) => {
-        if (!file) {
-            setError('Vui lòng chọn một hình ảnh.');
-            return;
-        }
-        setError('');
-        setSuccess('');
-        setLoading(true);
-
         const formData = new FormData();
         formData.append('file', file);
         formData.append('upload_preset', 'perfumeIamge');
 
+        const response = await axios.post(
+            `https://api.cloudinary.com/v1_1/${cloudinaryConfig.cloudName}/upload`,
+            formData
+        );
+        return response.data.secure_url;
+    };
+
+    const handleChange = async (e) => {
+        const files = Array.from(e.target.files);
+        if (files.length + previewImages.length > 5) {
+            setError('Chỉ được tải lên tối đa 5 ảnh.');
+            return;
+        }
+
+        const newPreviews = files.map((file) => ({
+            src: URL.createObjectURL(file),
+            file,
+            uploaded: false,
+        }));
+        setPreviewImages((prev) => [...prev, ...newPreviews]);
         try {
-            const response = await axios.post(
-                `https://api.cloudinary.com/v1_1/${cloudinaryConfig.cloudName}/upload`,
-                formData
+            const urls = await Promise.all(files.map(handleUpload));
+            console.log('Uploaded URLs:', urls);
+            const allImages = [
+                ...previewImages.filter((p) => p.uploaded).map((p) => p.src),
+                ...urls
+            ];
+            onImagesChange(allImages);
+            setPreviewImages((prev) =>
+                prev.map((preview) =>
+                    preview.uploaded ? preview : { ...preview, uploaded: true }
+                )
             );
-            const uploadedUrl = response.data.secure_url;
-            console.log(uploadedUrl);
-            const transformedUrl = cloudinary.url(response.data.public_id, {
-                width: 150,
-                height: 150,
-                crop: 'fill',
-                gravity: 'center',
-                fetch_format: 'auto'
-            });
-            setUrls((prevUrls) => [...prevUrls, transformedUrl]);
-            setSuccess('Tải lên thành công!');
-        } catch (error) {
-            console.error('Error uploading image:', error);
+        } catch {
             setError('Có lỗi xảy ra trong quá trình tải lên.');
-        } finally {
-            setLoading(false);
         }
     };
 
-    const handleChange = (e) => {
-        const files = Array.from(e.target.files);
-        setImages(files);
-        setUrls([]); // Reset URLs khi chọn tệp mới
-        files.forEach(handleUpload); // Tải lên từng tệp
+    const handleRemove = (index) => {
+        const updatedPreviews = previewImages.filter((_, i) => i !== index);
+        setPreviewImages(updatedPreviews);
+        const uploadedUrls = updatedPreviews
+            .filter(preview => preview.uploaded)
+            .map(preview => preview.src);
+        console.log(uploadedUrls);
+        onImagesChange(uploadedUrls);
     };
+
+    useEffect(() => {
+        if (initialImages && initialImages.length > 0) {
+            const existingPreviews = initialImages.map((image) => ({
+                src: image.url,
+                uploaded: true,
+            }));
+            setPreviewImages(existingPreviews);
+        }
+    }, [initialImages]);
 
     return (
         <div>
@@ -70,15 +83,40 @@ function UploadImage() {
                     <i className="bi bi-cloud-arrow-up fs-1"></i>
                     <p>Kéo thả ảnh vào đây hoặc nhấp để chọn</p>
                 </div>
-                {error && <div className="text-danger">{error}</div>}
-                {success && <div className="text-success">{success}</div>}
             </label>
-            {loading && <div className="text-info">Đang tải lên...</div>}
-            <div className="mt-3">
-                {urls.map((url, index) => (
-                    <img key={index} src={url} alt={`Uploaded ${index}`} className="mt-2" />
+
+            <div className="preview-container mt-3 d-flex flex-wrap">
+                {previewImages.map((preview, index) => (
+                    <div
+                        key={index}
+                        className="position-relative me-2 mb-2"
+                        style={{ width: '100px', height: '100px' }}
+                    >
+                        <img
+                            src={preview.src}
+                            alt={`preview-${index}`}
+                            className="img-thumbnail"
+                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                        />
+                        <button
+                            type="button"
+                            className="btn btn-sm position-absolute"
+                            style={{ top: '1px', right: '1px' }}
+                            onClick={() => handleRemove(index)}
+                        >
+                            <i className="bi bi-x"></i>
+                        </button>
+                        {!preview.uploaded && (
+                            <div className="position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center bg-light bg-opacity-50">
+                                <div className="spinner-border text-primary" role="status">
+                                    <span className="visually-hidden">Đang tải...</span>
+                                </div>
+                            </div>
+                        )}
+                    </div>
                 ))}
             </div>
+            {error && <div className="text-danger text-center mt-2">{error}</div>}
         </div>
     );
 }

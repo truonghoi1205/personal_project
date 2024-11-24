@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { fetchUser } from "../Redux/auth/authSlice";
 import Dashboard from "../Component/admin/Dashboard";
-import {Outlet} from "react-router-dom";
+import { Outlet } from "react-router-dom";
 
 function MainLayoutAdmin() {
     const dispatch = useDispatch();
@@ -23,9 +23,9 @@ function MainLayoutAdmin() {
     return (
         <div className="admin-layout d-flex">
             <Dashboard />
-            <div className="content-area col-10 p-0">
+            <div className="content-wrapper">
                 <NavAdmin />
-                <div className="main-content p-4">
+                <div className="content p-4">
                     <Outlet />
                 </div>
             </div>

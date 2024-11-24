@@ -10,14 +10,14 @@ function DropdownMenu() {
     const status = useSelector((state) => state.categories.status);
 
     useEffect(() => {
-        if (status === "idle") {
+        if (status === 'idle') {
             dispatch(fetchCategories());
         }
-    }, [status, dispatch]);
+    }, [dispatch, status]);
 
     return (
         <div className="dropdown-product mx-2">
-            <NavLink to="/san-pham" className="fs-6 fw-medium dropdown-toggle nav-link" id="productDropdown">
+            <NavLink to="/products" className="fs-6 fw-medium dropdown-toggle nav-link" id="productDropdown">
                 Sản Phẩm
             </NavLink>
             {
@@ -26,7 +26,7 @@ function DropdownMenu() {
                         {categories.map((category) => (
                             <li key={category.id}>
                                 <Link
-                                    to={`/phan-loai/${Helper.formatUrl(category.name)}`}
+                                    to={`/products/category/${Helper.formatUrl(category.name)}`}
                                     className="dropdown-item"
                                 >
                                     {category.name}

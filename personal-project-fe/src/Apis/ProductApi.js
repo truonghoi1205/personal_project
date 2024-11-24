@@ -1,8 +1,9 @@
 import axiosInstance from "./axiosInstance";
 
 class ProductApi {
-    static getAllProducts() {
-        return axiosInstance.get('/api/v1/products');
+    static getAllProducts(season = '') {
+        const url = season ? `/api/v1/products?season=${season}` : `/api/v1/products`;
+        return axiosInstance.get(url);
     }
     static createProduct(product) {
         return axiosInstance.post('/api/v1/products', product);
@@ -17,13 +18,13 @@ class ProductApi {
         return axiosInstance.get(`/api/v1/products/${id}`);
     }
     static getAllProductByBrand(brand) {
-        return axiosInstance.get(`/api/v1/products/thuong-hieu/${brand}`);
+        return axiosInstance.get(`/api/v1/products/brand/${brand}`);
     }
     static getAllProductByCategory(category) {
-        return axiosInstance.get(`/api/v1/products/phan-loai/${category}`);
+        return axiosInstance.get(`/api/v1/products/category/${category}`);
     }
     static async getProductBySlug(slug) {
-        return axiosInstance.get(`/api/v1/products/san-pham/${slug}`);
+        return axiosInstance.get(`/api/v1/products/product/${slug}`);
     }
 }
 

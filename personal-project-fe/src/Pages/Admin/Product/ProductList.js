@@ -36,13 +36,13 @@ function ProductList({
                         <td>{p.sku}</td>
                         <td>
                             <img
-                                src={p.images?.url}
+                                src={p.images[0]?.url}
                                 alt="Product"
-                                style={{ width: "30px" }}
+                                style={{ width: "50px"}}
                             />
                         </td>
-                        <td className="text-start">{p.name}</td>
-                        <td className="text-start">{p.brand.name}</td>
+                        <td className="text-start product__name" style={{width: '250px'}}>{p.name}</td>
+                        <td className="text-start" >{p.brand.name}</td>
                         <td>{p.category.name}</td>
                         <td>{p.concentration}</td>
                         <ProductDetails productDetails={p.productDetails} />

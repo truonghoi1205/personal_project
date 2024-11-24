@@ -17,7 +17,7 @@ function Brand() {
         if (status === "idle") {
             dispatch(fetchBrands());
         }
-    }, [status, dispatch]);
+    }, []);
 
     const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 
@@ -50,8 +50,12 @@ function Brand() {
         return name.toLowerCase().replace(/ /g, '-');
     };
 
+    const scrollToTop = () => {
+        window.scrollTo(0, 0);
+    };
+
     return (
-        <div className="container">
+        <div className="container mt-5">
             <p className="fs-1 text-center mt-4">Thương Hiệu</p>
             <div className="sticky-top bg-white py-3">
                 <div className="d-flex justify-content-center">
@@ -72,8 +76,8 @@ function Brand() {
                     <h5>{letter}</h5>
                     {groupedBrands[letter] && groupedBrands[letter].length > 0 ? (<div>
                         {groupedBrands[letter].map((brand, index) => (<p key={index} className="mb-1">
-                            <Link to={`/thuong-hieu/${formatBrandName(brand.name)}`}
-                                  className="text-black-50 brand__name">
+                            <Link to={`/products/brand/${formatBrandName(brand.name)}`}
+                                  className="text-black-50 brand__name" onClick={scrollToTop}>
                                 {brand.name}
                             </Link>
                         </p>))}

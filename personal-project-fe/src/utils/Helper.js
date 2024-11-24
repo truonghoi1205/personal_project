@@ -85,7 +85,7 @@ class Helper {
     };
 
     static parseNumber(value) {
-        return value.replace(/\./g, '').replace(/,/g, '') // Remove commas for numeric parsing
+        return value.replace(/\./g, '').replace(/,/g, '')
     };
 
     static parseFloat(value) {
@@ -103,6 +103,10 @@ class Helper {
     static formatUrl = (name) => {
         const normalizedStr = name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D');
         return normalizedStr.toLowerCase().replace(/ /g, '-');
+    };
+
+    static sortProductDetailsByVolume = (productDetails) => {
+        return [...productDetails].sort((a, b) => a.volume - b.volume);
     };
 }
 

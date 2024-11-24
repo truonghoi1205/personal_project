@@ -30,6 +30,9 @@ const authSlice = createSlice({
             state.isAuthenticated = true;
             localStorage.setItem('token', action.payload);
         },
+        setRoles: (state, action) => {
+            state.roles = action.payload;
+        },
         logout: (state) => {
             localStorage.removeItem('token');
             state.token = null;
@@ -48,7 +51,7 @@ const authSlice = createSlice({
             .addCase(fetchUser.fulfilled, (state, action) => {
                 state.status = 'succeeded';
                 state.isAuthenticated = true;
-                state.roles = action.payload.roles || [];
+                state.roles = action.payload.roles;
                 state.user = action.payload;
             })
             .addCase(fetchUser.rejected, (state) => {
@@ -60,6 +63,6 @@ const authSlice = createSlice({
     },
 });
 
-export const { setToken, logout } = authSlice.actions;
+export const { setToken, logout,setRoles  } = authSlice.actions;
 
 export default authSlice.reducer;

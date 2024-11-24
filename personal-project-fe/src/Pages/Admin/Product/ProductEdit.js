@@ -16,27 +16,30 @@ function ProductEdit() {
         name: "",
         description: "",
         concentration: "",
-        session: "",
+        season: "",
         brandId: "",
         categoryId: "",
         productDetails: [{ volume: '', stock: '', price: '' }],
         images: []
     });
 
+    const handleImagesChange = (updatedImages) => {
+        formik.setFieldValue("images", updatedImages);
+    };
+
     useEffect(() => {
         const fetchProduct = async () => {
             try {
                 const product = await ProductApi.getProductById(id);
-                console.log(product.data);
                 setInitialValues({
                     name: product.data.name,
                     description: product.data.description,
                     concentration: product.data.concentration,
-                    session: product.data.session,
+                    season: product.data.season,
                     brandId: product.data.brand.id,
                     categoryId: product.data.category.id,
                     productDetails: product.data.productDetails,
-                    images: product.data.images
+                    images: product.data.images || []
                 });
             } catch (error) {
                 Helper.toastError('Không thể tải sản phẩm!');
@@ -73,7 +76,11 @@ function ProductEdit() {
         <div className="card">
             <div className="card-body">
                 <h4 className="card-title">Cập nhật sản phẩm</h4>
-                <ProductForm formik={formik} isCreate={false} />
+                <ProductForm
+                    formik={formik}
+                    isCreate={false}
+                    images={initialValues.images}
+                    onImagesChange={handleImagesChange} />
             </div>
         </div>
     );

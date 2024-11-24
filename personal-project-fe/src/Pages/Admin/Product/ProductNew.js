@@ -15,7 +15,7 @@ function ProductNew() {
             name: "",
             description: "",
             concentration: "",
-            session: "",
+            season: "",
             brandId: "",
             categoryId: "",
             productDetails: [{ volume: '', stock: '', price: '' }],
@@ -29,6 +29,7 @@ function ProductNew() {
                 dispatch(fetchProducts());
                 navigate("/admin/products");
             } catch (error) {
+                console.log(error)
                 Helper.toastError('Thêm mới thất bại!');
             } finally {
                 setSubmitting(false);
@@ -39,7 +40,7 @@ function ProductNew() {
     return (
         <div className="card">
             <div className="card-body">
-                <h4 className="card-title">Thêm mới sản phẩm</h4>
+                <h4 className="card-title">Thêm sản phẩm</h4>
                 <ProductForm formik={formik} isCreate={true} />
             </div>
         </div>

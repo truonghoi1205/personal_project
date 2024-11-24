@@ -26,8 +26,12 @@ const UserMenu = ({isAuthenticated, user}) => {
                                 </div>
                                 <div className={`user-menu__dropdown ${isDropdownOpen ? "show" : ""}`}>
                                     <ul>
-                                        <li><i className="bi bi-person-circle"></i> Tài khoản của tôi</li>
-                                        <li><i className="bi bi-gear"></i> Đổi mật khẩu</li>
+                                        <Link to="/account">
+                                            <li className="text-black"><i className="bi bi-person-circle"></i> Tài khoản của tôi</li>
+                                        </Link>
+                                        <Link to="/change-password">
+                                        <li className="text-black"><i className="bi bi-gear"></i> Đổi mật khẩu</li>
+                                        </Link>
                                         <Logout/>
                                     </ul>
                                 </div>
